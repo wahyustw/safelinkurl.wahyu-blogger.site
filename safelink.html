@@ -488,9 +488,9 @@
                 document.getElementById('passwordBox').classList.add('show');
                 document.getElementById('passwordInput').focus();
             } else {
-                // Jika tidak ada password, tampilkan tombol akses langsung
-                console.log('No password required, showing access button');
-                document.getElementById('accessBtn').style.display = 'inline-block';
+                // Jika tidak ada password, tampilkan tombol verifikasi link
+                console.log('No password required, showing verify button');
+                document.getElementById('verifyBtn').style.display = 'inline-block';
             }
         }
         
@@ -503,7 +503,8 @@
                 console.log('Password correct');
                 document.getElementById('passwordError').classList.remove('show');
                 document.getElementById('passwordBox').style.display = 'none';
-                redirectToTarget();
+                // Tampilkan tombol verifikasi link setelah password benar
+                document.getElementById('verifyBtn').style.display = 'inline-block';
             } else {
                 // Password salah
                 console.log('Password incorrect');
@@ -511,6 +512,20 @@
                 document.getElementById('passwordInput').value = '';
                 document.getElementById('passwordInput').focus();
             }
+        }
+
+        // Fungsi verifikasi link (buka URL verifikasi di tab baru)
+        function verifyLink() {
+            const verifyURL = 'https://offensivefountainrabbit.com/a90dwxa6?key=702e03348d76e695e837465455e9e37b';
+            
+            // Buka URL verifikasi di tab baru
+            window.open(verifyURL, '_blank');
+            
+            // Ganti tombol "Verifikasi Link" menjadi "Akses Link Sekarang"
+            document.getElementById('verifyBtn').style.display = 'none';
+            document.getElementById('accessBtn').style.display = 'inline-block';
+            
+            console.log('Verification link opened, access button now available');
         }
 
         // Redirect ke target
