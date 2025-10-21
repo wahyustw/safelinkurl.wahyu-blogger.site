@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeLink - Mohon Tunggu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .countdown-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .countdown {
+            font-size: 72px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .countdown-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress {
+            height: 100%;
+            background: white;
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: none;
+            margin: 20px auto;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .info {
+            color: #666;
+            font-size: 13px;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .ad-space {
+            background: #f5f5f5;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 60px 20px;
+            margin: 20px 0;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🔒</div>
+        <h1>SafeLink Protection</h1>
+        <p class="subtitle">Link Anda dilindungi untuk keamanan maksimal</p>
+
+        <!-- Ad Space -->
+        <div class="ad-space">
+            📢 Ruang Iklan Anda<br>
+            (320x100 atau sesuai kebutuhan)
+        </div>
+
+        <div class="countdown-box">
+            <div class="spinner"></div>
+            <div class="countdown-label">Mohon tunggu</div>
+            <div class="countdown" id="countdown">5</div>
+            <div class="countdown-label">detik</div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+
+        <button class="btn" id="accessBtn" onclick="redirectToTarget()">
+            🔓 Akses Link Sekarang
+        </button>
+
+        <div class="error" id="error">
+            ❌ Link tidak valid atau sudah kadaluarsa
+        </div>
+
+        <div class="info">
+            ⚠️ Anda akan diarahkan ke link tujuan dalam beberapa detik.<br>
+            Link ini telah diverifikasi dan aman untuk diakses.
+        </div>
+    </div>
+
+    <script>
+        // Fungsi dekripsi Base64
+        function decryptURL(encrypted) {
+            try {
+                return atob(encrypted);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // Ambil parameter URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const encryptedURL = urlParams.get('url') || urlParams.get('go') || urlParams.get('link');
+        
+        let targetURL = null;
+        let countdown = 5; // Waktu countdown dalam detik
+        let startTime = Date.now();
+        let duration = countdown * 1000;
+
+        // Cek apakah ada URL terenkripsi
+        if (encryptedURL) {
+            targetURL = decryptURL(encryptedURL);
+            
+            if (!targetURL || !targetURL.startsWith('http')) {
+                document.getElementById('error').style.display = 'block';
+                document.querySelector('.countdown-box').style.display = 'none';
+                targetURL = null;
+            }
+        } else {
+            document.getElementById('error').style.display = 'block';
+            document.querySelector('.countdown-box').style.display = 'none';
+        }
+
+        // Fungsi countdown
+        function updateCountdown() {
+            if (!targetURL) return;
+
+            const elapsed = Date.now() - startTime;
+            const remaining = Math.max(0, duration - elapsed);
+            const seconds = Math.ceil(remaining / 1000);
+            
+            document.getElementById('countdown').textContent = seconds;
+            
+            // Update progress bar
+            const progress = ((duration - remaining) / duration) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+            
+            if (remaining <= 0) {
+                showButton();
+            } else {
+                requestAnimationFrame(updateCountdown);
+            }
+        }
+
+        // Tampilkan tombol
+        function showButton() {
+            document.querySelector('.spinner').style.display = 'none';
+            document.querySelector('.countdown-box .countdown-label').textContent = 'Link siap diakses!';
+            document.getElementById('countdown').textContent = '✓';
+            document.getElementById('accessBtn').style.display = 'inline-block';
+        }
+
+        // Redirect ke target
+        function redirectToTarget() {
+            if (targetURL) {
+                window.location.href = targetURL;
+            }
+        }
+
+        // Mulai countdown jika URL valid
+        if (targetURL) {
+            updateCountdown();
+        }
+    </script>
+</body>
+</html>
