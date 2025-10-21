@@ -308,11 +308,13 @@
             <div class="info-box">
                 <h3>📌 Cara Menggunakan:</h3>
                 <ul>
-                    <li>Masukkan domain safelink Anda (sudah diisi otomatis)</li>
                     <li>Masukkan URL tujuan yang ingin dilindungi</li>
+                    <li>Pilih parameter URL (default: url) - opsional</li>
+                    <li><strong>Password (opsional):</strong> Isi jika ingin proteksi tambahan. Kosongkan jika tidak perlu</li>
                     <li>Klik "Generate SafeLink"</li>
                     <li>URL otomatis dikompress menjadi lebih pendek (50-70% lebih singkat)</li>
                     <li>Salin link yang dihasilkan dan bagikan</li>
+                    <li>Link dapat diakses dengan format: https://, http://, www, atau non-www</li>
                 </ul>
             </div>
         </div>
@@ -340,28 +342,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
     <script>
-        // Auto-load saved base URL
-        window.onload = function() {
-            const savedBaseUrl = localStorage.getItem('safelink_base_url');
-            if (savedBaseUrl) {
-                document.getElementById('baseUrl').value = savedBaseUrl;
-            } else {
-                // Set default domain
-                document.getElementById('baseUrl').value = 'https://safelinkurl.wahyu-blogger.site';
-            }
-        };
-
         function generateSafeLink() {
-            const baseUrl = document.getElementById('baseUrl').value.trim();
+            // Base URL fixed (support berbagai format)
+            const baseUrl = 'https://safelinkurl.wahyu-blogger.site';
             const targetUrl = document.getElementById('targetUrl').value.trim();
             const paramName = document.getElementById('paramName').value;
+            const password = document.getElementById('password').value.trim();
 
             // Validasi
-            if (!baseUrl) {
-                alert('❌ Mohon masukkan domain SafeLink Anda!');
-                return;
-            }
-
             if (!targetUrl) {
                 alert('❌ Mohon masukkan URL tujuan!');
                 return;
@@ -369,22 +357,27 @@
 
             // Validasi URL
             try {
-                new URL(baseUrl);
                 new URL(targetUrl);
             } catch (e) {
                 alert('❌ Format URL tidak valid! Pastikan dimulai dengan http:// atau https://');
                 return;
             }
 
-            // Simpan baseUrl ke localStorage
-            localStorage.setItem('safelink_base_url', baseUrl);
-
             // KOMPRESI + ENKRIPSI (lebih pendek!)
-            // Step 1: Compress dengan LZString
-            const compressed = LZString.compressToEncodedURIComponent(targetUrl);
+            // Step 1: Buat object data (URL + password jika ada)
+            const dataObject = {
+                url: targetUrl,
+                pwd: password || null
+            };
+            
+            // Step 2: Convert ke JSON string
+            const jsonString = JSON.stringify(dataObject);
+            
+            // Step 3: Compress dengan LZString
+            const compressed = LZString.compressToEncodedURIComponent(jsonString);
             
             // Buat SafeLink dengan URL yang sudah dikompress
-            const safeLink = `${baseUrl.replace(/\/$/, '')}/safelink.html?${paramName}=${compressed}`;
+            const safeLink = `${baseUrl}/safelink.html?${paramName}=${compressed}`;
 
             // Hitung statistik
             const originalLength = targetUrl.length;
