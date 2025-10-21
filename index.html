@@ -346,7 +346,7 @@
             const encryptedUrl = btoa(targetUrl);
 
             // Buat SafeLink
-            const safeLink = `${baseUrl.replace(/\/$/, '')}/?${paramName}=${encryptedUrl}`;
+            const safeLink = `${baseUrl.replace(/\/$/, '')}/safelink.html?${paramName}=${encryptedUrl}`;
 
             // Tampilkan hasil
             document.getElementById('safelink').textContent = safeLink;
