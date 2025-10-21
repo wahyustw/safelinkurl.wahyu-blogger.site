@@ -105,6 +105,52 @@
         .btn:active {
             transform: translateY(0);
         }
+        
+        .password-box {
+            display: none;
+            margin: 20px 0;
+            padding: 20px;
+            background: #fff9e6;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .password-box.show {
+            display: block;
+        }
+        
+        .password-label {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+            display: block;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .password-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .password-error {
+            color: #c33;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .password-error.show {
+            display: block;
+        }
 
         .info {
             color: #666;
