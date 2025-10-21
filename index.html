@@ -278,7 +278,25 @@
 
             <div class="result" id="result">
                 <div class="result-label">✅ SafeLink Berhasil Dibuat!</div>
-                <div class="result-url" id="safelink"></div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #666;">SafeLink (Compressed):</label>
+                    <div class="result-url" id="safelink"></div>
+                    <button class="copy-btn" onclick="copySafeLink('safelink')">
+                        📋 Salin Link
+                    </button>
+                </div>
+                
+                <div id="shortUrlContainer" style="display: none; margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #10b981;">🎯 SafeLink (Super Pendek via TinyURL):</label>
+                    <div class="result-url" id="shortUrl" style="border-left: 4px solid #10b981;"></div>
+                    <button class="copy-btn" onclick="copySafeLink('shortUrl')" style="background: #10b981;">
+                        📋 Salin Link Pendek
+                    </button>
+                    <small style="display: block; margin-top: 10px; color: #666; font-size: 12px;">
+                        💡 Link ini lebih pendek dan mudah dibagikan!
+                    </small>
+                </div>
                 
                 <div class="url-stats">
                     <div class="stat-item">
@@ -287,17 +305,13 @@
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="shortenedLength">0</div>
-                        <div class="stat-label">Panjang Baru</div>
+                        <div class="stat-label">Panjang Compressed</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="compression">0%</div>
                         <div class="stat-label">Kompresi</div>
                     </div>
                 </div>
-                
-                <button class="copy-btn" id="copyBtn" onclick="copySafeLink()">
-                    📋 Salin Link
-                </button>
                 
                 <div class="preview">
                     <h3>🔍 Preview:</h3>
