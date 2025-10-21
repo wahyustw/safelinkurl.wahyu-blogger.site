@@ -1,8 +1,16 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="no-referrer">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="description" content="Generate secure SafeLinks with URL encryption and password protection. Professional link shortener service.">
+    <meta name="keywords" content="safelink generator, url shortener, link encryption, secure links, password protection">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SafeLink Generator">
     <title>SafeLink Generator</title>
     <style>
         * {
@@ -266,42 +274,51 @@
             font-size: 13px;
             line-height: 1.8;
         }
+
+        .site-type {
+            display: none;
+        }
     </style>
 </head>
-<body>
+<body data-site-type="safelink-generator" data-service="url-shortener-tool">
+    <!-- Site Type Identifier for Ad Networks -->
+    <div class="site-type" id="siteType" data-category="link-shortener-generator" data-service="url-encryption-tool">
+        SafeLink Generator - URL Shortener & Encryption Tool
+    </div>
+
     <div class="container">
         <div class="card">
             <div class="header">
-                <div class="logo">🔐</div>
+                <div class="logo">🔗</div>
                 <h1>SafeLink Generator</h1>
-                <p class="subtitle">Enkripsi URL Anda dengan mudah dan aman (URL diperpendek otomatis)</p>
+                <p class="subtitle">Encrypt your URLs easily and securely (URL automatically compressed)</p>
             </div>
 
             <div class="form-group">
-                <label for="targetUrl">🔗 URL Tujuan (yang akan dienkripsi)</label>
+                <label for="targetUrl">🔗 Target URL (to be encrypted)</label>
                 <input type="url" id="targetUrl" placeholder="https://example.com/file.pdf" required>
             </div>
 
             <div class="settings">
-                <h3>⚙️ Pengaturan Opsional</h3>
+                <h3>⚙️ Optional Settings</h3>
                 <div class="form-group">
-                    <label for="paramName">Parameter URL (default: url)</label>
+                    <label for="paramName">URL Parameter (default: url)</label>
                     <select id="paramName">
                         <option value="url">?url=...</option>
                         <option value="go">?go=...</option>
                         <option value="link">?link=...</option>
                         <option value="to">?to=...</option>
                         <option value="redirect">?redirect=...</option>
-                        <option value="s">?s=... (pendek)</option>
-                        <option value="d">?d=... (pendek)</option>
+                        <option value="s">?s=... (short)</option>
+                        <option value="d">?d=... (short)</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="password">🔑 Password (opsional - kosongkan jika tidak perlu)</label>
-                    <input type="text" id="password" placeholder="Masukkan password jika ingin proteksi tambahan">
+                    <label for="password">🔒 Password (optional - leave blank if not needed)</label>
+                    <input type="text" id="password" placeholder="Enter password for extra protection">
                     <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
-                        💡 Jika diisi, pengunjung harus memasukkan password untuk akses link
+                        💡 If filled, visitors must enter password to access the link
                     </small>
                 </div>
             </div>
@@ -311,17 +328,17 @@
             </button>
 
             <div class="result" id="result">
-                <div class="result-label">✅ SafeLink Berhasil Dibuat!</div>
+                <div class="result-label">✅ SafeLink Created Successfully!</div>
                 
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #666;">SafeLink (Compressed):</label>
                     <div class="result-url" id="safelink"></div>
                     <div class="button-group">
                         <button class="copy-btn" onclick="copySafeLink()" style="flex: 1;">
-                            📋 Salin Link
+                            📋 Copy Link
                         </button>
                         <button class="copy-btn btn-secondary" onclick="shortenManually()">
-                            ✂️ Perpendek Link
+                            ✂️ Shorten Link
                         </button>
                     </div>
                 </div>
@@ -329,70 +346,70 @@
                 <div class="url-stats">
                     <div class="stat-item">
                         <div class="stat-value" id="originalLength">0</div>
-                        <div class="stat-label">Panjang Asli</div>
+                        <div class="stat-label">Original Length</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="shortenedLength">0</div>
-                        <div class="stat-label">Panjang Compressed</div>
+                        <div class="stat-label">Compressed Length</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="compression">0%</div>
-                        <div class="stat-label">Kompresi</div>
+                        <div class="stat-label">Compression</div>
                     </div>
                 </div>
                 
                 <div class="preview">
                     <h3>🔍 Preview:</h3>
-                    <a href="#" id="previewLink" target="_blank" class="preview-link">Klik untuk test safelink</a>
+                    <a href="#" id="previewLink" target="_blank" rel="noopener noreferrer" class="preview-link">Click to test safelink</a>
                 </div>
                 
                 <div class="tips-box">
-                    <strong>💡 Cara Perpendek Link:</strong>
+                    <strong>💡 How to Shorten Link:</strong>
                     <ul>
-                        <li>Klik tombol "✂️ Perpendek Link" di atas</li>
-                        <li>Link akan otomatis ter-copy dan TinyURL terbuka di tab baru</li>
-                        <li>Di TinyURL, klik "Make TinyURL!" (link sudah terisi otomatis)</li>
-                        <li>Copy link pendek hasil TinyURL (misal: tinyurl.com/abc123)</li>
-                        <li>Share link pendek tersebut - halaman SafeLink Anda tetap tampil!</li>
-                        <li><strong>Iklan tetap muncul</strong> di domain Anda saat user akses</li>
+                        <li>Click "✂️ Shorten Link" button above</li>
+                        <li>Link will be auto-copied and TinyURL opens in new tab</li>
+                        <li>On TinyURL, click "Make TinyURL!" (link already filled)</li>
+                        <li>Copy the short link from TinyURL (e.g., tinyurl.com/abc123)</li>
+                        <li>Share that short link - your SafeLink page still displays!</li>
+                        <li><strong>Ads still appear</strong> on your domain when users access</li>
                     </ul>
                 </div>
             </div>
 
             <div class="info-box">
-                <h3>📌 Cara Menggunakan:</h3>
+                <h3>📌 How to Use:</h3>
                 <ul>
-                    <li>Masukkan URL tujuan yang ingin dilindungi</li>
-                    <li>Pilih parameter URL (default: url) - opsional</li>
-                    <li><strong>Password (opsional):</strong> Isi jika ingin proteksi tambahan. Kosongkan jika tidak perlu</li>
-                    <li>Klik "Generate SafeLink"</li>
-                    <li>URL otomatis dikompress menjadi lebih pendek (50-70% lebih singkat)</li>
-                    <li>Gunakan tombol "Perpendek Link" jika ingin versi super pendek untuk social media</li>
-                    <li>Link dapat diakses dengan format: https://, http://, www, atau non-www</li>
+                    <li>Enter the target URL you want to protect</li>
+                    <li>Choose URL parameter (default: url) - optional</li>
+                    <li><strong>Password (optional):</strong> Fill if you want extra protection. Leave blank if not needed</li>
+                    <li>Click "Generate SafeLink"</li>
+                    <li>URL automatically compressed to be shorter (50-70% smaller)</li>
+                    <li>Use "Shorten Link" button for super short version for social media</li>
+                    <li>Link accessible with format: https://, http://, www, or non-www</li>
                 </ul>
             </div>
         </div>
 
         <div class="card">
-            <h2 style="margin-bottom: 20px; color: #333;">🎯 Contoh Penggunaan</h2>
+            <h2 style="margin-bottom: 20px; color: #333;">🎯 Usage Example</h2>
             <div style="background: #f5f5f5; padding: 15px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.8;">
-                <strong>URL Asli:</strong><br>
+                <strong>Original URL:</strong><br>
                 https://drive.google.com/file/d/1234567890abcdef/view<br><br>
                 
-                <strong>Menjadi SafeLink (Compressed):</strong><br>
+                <strong>Becomes SafeLink (Compressed):</strong><br>
                 https://safelinkurl.wahyu-blogger.site/safelink.html?url=N4Ig...<br><br>
                 
-                <strong>Diperpendek via TinyURL (Opsional):</strong><br>
+                <strong>Shortened via TinyURL (Optional):</strong><br>
                 https://tinyurl.com/abc123<br>
-                <small style="color: #666;">↑ Klik ini → Redirect ke SafeLink Anda → Countdown + Ads muncul</small><br><br>
+                <small style="color: #666;">→ Click this → Redirect to your SafeLink → Countdown + Ads appear</small><br><br>
                 
-                <strong>Keuntungan:</strong><br>
-                ✓ URL asli tersembunyi<br>
-                ✓ Link lebih pendek (50-70% lebih singkat)<br>
-                ✓ Countdown timer 5 detik<br>
-                ✓ Ruang untuk iklan di domain Anda<br>
-                ✓ Password protection (opsional)<br>
-                ✓ TinyURL hanya shortcut, semua proses di domain Anda
+                <strong>Benefits:</strong><br>
+                ✓ Original URL hidden<br>
+                ✓ Link shorter (50-70% smaller)<br>
+                ✓ 5 second countdown timer<br>
+                ✓ Space for ads on your domain<br>
+                ✓ Password protection (optional)<br>
+                ✓ TinyURL is just shortcut, all process on your domain
             </div>
         </div>
     </div>
@@ -401,49 +418,63 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
     <script>
+        // Security: Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Security: Disable F12, Ctrl+Shift+I, Ctrl+U
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123 || // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+                (e.ctrlKey && e.keyCode === 85)) { // Ctrl+U
+                e.preventDefault();
+            }
+        });
+
         function generateSafeLink() {
-            // Base URL fixed (support berbagai format)
+            // Base URL fixed (support various formats)
             const baseUrl = 'https://safelinkurl.wahyu-blogger.site';
             const targetUrl = document.getElementById('targetUrl').value.trim();
             const paramName = document.getElementById('paramName').value;
             const password = document.getElementById('password').value.trim();
 
-            // Validasi
+            // Validation
             if (!targetUrl) {
-                alert('❌ Mohon masukkan URL tujuan!');
+                alert('❌ Please enter target URL!');
                 return;
             }
 
-            // Validasi URL
+            // URL Validation
             try {
                 new URL(targetUrl);
             } catch (e) {
-                alert('❌ Format URL tidak valid! Pastikan dimulai dengan http:// atau https://');
+                alert('❌ Invalid URL format! Make sure it starts with http:// or https://');
                 return;
             }
 
-            // KOMPRESI + ENKRIPSI (lebih pendek!)
-            // Step 1: Buat object data (URL + password jika ada)
+            // COMPRESSION + ENCRYPTION (shorter!)
+            // Step 1: Create data object (URL + password if exists)
             const dataObject = {
                 url: targetUrl,
                 pwd: password || null
             };
             
-            // Step 2: Convert ke JSON string
+            // Step 2: Convert to JSON string
             const jsonString = JSON.stringify(dataObject);
             
-            // Step 3: Compress dengan LZString
+            // Step 3: Compress with LZString
             const compressed = LZString.compressToEncodedURIComponent(jsonString);
             
-            // Buat SafeLink dengan URL yang sudah dikompress
+            // Create SafeLink with compressed URL
             const safeLink = `${baseUrl}/safelink.html?${paramName}=${compressed}`;
 
-            // Hitung statistik
+            // Calculate statistics
             const originalLength = targetUrl.length;
             const shortenedLength = compressed.length;
             const compressionRate = Math.round((1 - shortenedLength / originalLength) * 100);
 
-            // Tampilkan hasil
+            // Display results
             document.getElementById('safelink').textContent = safeLink;
             document.getElementById('previewLink').href = safeLink;
             document.getElementById('originalLength').textContent = originalLength;
@@ -451,7 +482,7 @@
             document.getElementById('compression').textContent = compressionRate + '%';
             document.getElementById('result').classList.add('show');
 
-            // Scroll ke hasil
+            // Scroll to results
             document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
         
@@ -460,18 +491,20 @@
             
             // Copy to clipboard
             navigator.clipboard.writeText(safelink).then(function() {
-                // Open TinyURL in new tab with URL pre-filled
+                // Open TinyURL in new tab with URL pre-filled (with security)
                 const tinyUrlCreate = `https://tinyurl.com/create.php?url=${encodeURIComponent(safelink)}`;
-                window.open(tinyUrlCreate, '_blank');
+                const newWindow = window.open(tinyUrlCreate, '_blank', 'noopener,noreferrer');
+                if (newWindow) newWindow.opener = null;
                 
                 // Show confirmation
-                alert('✅ Link sudah ter-copy!\n\n📋 TinyURL terbuka di tab baru dengan link sudah terisi.\n\nKlik "Make TinyURL!" untuk perpendek link.\n\n💡 Link pendek akan redirect ke SafeLink Anda - countdown & iklan tetap muncul!');
+                alert('✅ Link already copied!\n\n📋 TinyURL opened in new tab with link pre-filled.\n\nClick "Make TinyURL!" to shorten link.\n\n💡 Short link will redirect to your SafeLink - countdown & ads still appear!');
             }, function(err) {
                 // If copy fails, just open TinyURL
                 const tinyUrlCreate = `https://tinyurl.com/create.php?url=${encodeURIComponent(safelink)}`;
-                window.open(tinyUrlCreate, '_blank');
+                const newWindow = window.open(tinyUrlCreate, '_blank', 'noopener,noreferrer');
+                if (newWindow) newWindow.opener = null;
                 
-                alert('📋 TinyURL terbuka di tab baru.\n\nPaste (Ctrl+V) link di kolom yang tersedia, lalu klik "Make TinyURL!"');
+                alert('📋 TinyURL opened in new tab.\n\nPaste (Ctrl+V) link in the available field, then click "Make TinyURL!"');
             });
         }
 
@@ -480,20 +513,20 @@
             const copyBtn = event.target;
 
             navigator.clipboard.writeText(safelink).then(function() {
-                // Simpan text asli
+                // Save original text
                 const originalText = copyBtn.textContent;
                 
-                // Ubah teks tombol
-                copyBtn.textContent = '✅ Tersalin!';
+                // Change button text
+                copyBtn.textContent = '✅ Copied!';
                 copyBtn.classList.add('copied');
 
-                // Kembalikan setelah 2 detik
+                // Restore after 2 seconds
                 setTimeout(function() {
                     copyBtn.textContent = originalText;
                     copyBtn.classList.remove('copied');
                 }, 2000);
             }, function(err) {
-                alert('❌ Gagal menyalin: ' + err);
+                alert('❌ Failed to copy: ' + err);
             });
         }
 
@@ -502,6 +535,14 @@
             if (e.key === 'Enter') {
                 generateSafeLink();
             }
+        });
+
+        // Security: Add noopener noreferrer to all external links
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[target="_blank"]');
+            links.forEach(function(link) {
+                link.rel = 'noopener noreferrer';
+            });
         });
     </script>
 </body>
