@@ -29,6 +29,90 @@
             padding: 20px;
         }
 
+        .main-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        .side-ad {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-width: 300px;
+            max-width: 300px;
+        }
+
+        .side-ad-inner {
+            background: white;
+            border: 2px dashed #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .ad-placeholder {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            min-height: 600px;
+        }
+
+        .ad-placeholder-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .ad-placeholder-title {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .ad-placeholder-size {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .ad-placeholder-note {
+            color: #666;
+            font-size: 12px;
+            font-style: italic;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        /* Hide placeholder when ad is loaded */
+        .side-ad-inner:has(script) .ad-placeholder,
+        .side-ad-inner:has(div[id^="container-"]) .ad-placeholder {
+            display: none;
+        }
+
+        /* Show side ads only on desktop (min-width: 1200px) */
+        @media (min-width: 1200px) {
+            .side-ad {
+                display: flex;
+            }
+        }
+
         .container {
             background: white;
             border-radius: 20px;
@@ -254,7 +338,33 @@
         SafeLink URL Shortener & Encryption Service
     </div>
 
-    <div class="container">
+    <div class="main-wrapper">
+        <!-- Left Side Ad (Native Banner 1:4 - Desktop Only) -->
+        <div class="side-ad" id="leftSideAd">
+            <div class="side-ad-inner">
+                <!-- ============================================ -->
+                <!-- PASTE NATIVE BANNER AD CODE HERE (LEFT)     -->
+                <!-- Format: 1:4 Landscape / Vertical Native     -->
+                <!-- Desktop Only (min-width: 1200px)            -->
+                <!-- ============================================ -->
+                
+                📢 Left Native Ad<br>
+                (1:4 Landscape Banner)<br>
+                Desktop Only
+                
+                <!-- Example Native Ad Code:
+                <script async="async" data-cfasync="false" src="//offensivefountainrabbit.com/20705ee71de242ef97180bbb3619145d/invoke.js"></script>
+                <div id="container-20705ee71de242ef97180bbb3619145d"></div>
+                -->
+                
+                <!-- ============================================ -->
+                <!-- END LEFT NATIVE AD CODE                     -->
+                <!-- ============================================ -->
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container">
         <div class="logo">🔒</div>
         <h1>SafeLink Protection</h1>
         <p class="subtitle">Your link is protected for maximum security</p>
@@ -405,6 +515,34 @@
             This link has been verified and is safe to access.
         </div>
     </div>
+    <!-- End Main Content -->
+
+    <!-- Right Side Ad (Native Banner 1:4 - Desktop Only) -->
+    <div class="side-ad" id="rightSideAd">
+        <div class="side-ad-inner">
+            <!-- ============================================ -->
+            <!-- PASTE NATIVE BANNER AD CODE HERE (RIGHT)    -->
+            <!-- Format: 1:4 Landscape / Vertical Native     -->
+            <!-- Desktop Only (min-width: 1200px)            -->
+            <!-- ============================================ -->
+            
+            📢 Right Native Ad<br>
+            (1:4 Landscape Banner)<br>
+            Desktop Only
+            
+            <!-- Example Native Ad Code:
+            <script async="async" data-cfasync="false" src="//offensivefountainrabbit.com/20705ee71de242ef97180bbb3619145d/invoke.js"></script>
+            <div id="container-20705ee71de242ef97180bbb3619145d"></div>
+            -->
+            
+            <!-- ============================================ -->
+            <!-- END RIGHT NATIVE AD CODE                    -->
+            <!-- ============================================ -->
+        </div>
+    </div>
+
+</div>
+<!-- End Main Wrapper -->
 
     <!-- LZString Library for Decompression -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
