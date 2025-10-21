@@ -232,6 +232,40 @@
             color: #666;
             margin-top: 5px;
         }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-secondary {
+            background: #10b981;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .tips-box {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .tips-box strong {
+            color: #667eea;
+        }
+
+        .tips-box ul {
+            margin: 10px 0 0 20px;
+            color: #666;
+            font-size: 13px;
+            line-height: 1.8;
+        }
     </style>
 </head>
 <body>
@@ -282,20 +316,14 @@
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #666;">SafeLink (Compressed):</label>
                     <div class="result-url" id="safelink"></div>
-                    <button class="copy-btn" onclick="copySafeLink('safelink')">
-                        📋 Salin Link
-                    </button>
-                </div>
-                
-                <div id="shortUrlContainer" style="display: none; margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #10b981;">🎯 SafeLink (Super Pendek via TinyURL):</label>
-                    <div class="result-url" id="shortUrl" style="border-left: 4px solid #10b981;"></div>
-                    <button class="copy-btn" onclick="copySafeLink('shortUrl')" style="background: #10b981;">
-                        📋 Salin Link Pendek
-                    </button>
-                    <small style="display: block; margin-top: 10px; color: #666; font-size: 12px;">
-                        💡 Link ini lebih pendek dan mudah dibagikan!
-                    </small>
+                    <div class="button-group">
+                        <button class="copy-btn" onclick="copySafeLink()" style="flex: 1;">
+                            📋 Salin Link
+                        </button>
+                        <button class="copy-btn btn-secondary" onclick="shortenManually()">
+                            ✂️ Perpendek Link
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="url-stats">
@@ -317,6 +345,18 @@
                     <h3>🔍 Preview:</h3>
                     <a href="#" id="previewLink" target="_blank" class="preview-link">Klik untuk test safelink</a>
                 </div>
+                
+                <div class="tips-box">
+                    <strong>💡 Cara Perpendek Link:</strong>
+                    <ul>
+                        <li>Klik tombol "✂️ Perpendek Link" di atas</li>
+                        <li>Link akan otomatis ter-copy dan TinyURL terbuka di tab baru</li>
+                        <li>Di TinyURL, klik "Make TinyURL!" (link sudah terisi otomatis)</li>
+                        <li>Copy link pendek hasil TinyURL (misal: tinyurl.com/abc123)</li>
+                        <li>Share link pendek tersebut - halaman SafeLink Anda tetap tampil!</li>
+                        <li><strong>Iklan tetap muncul</strong> di domain Anda saat user akses</li>
+                    </ul>
+                </div>
             </div>
 
             <div class="info-box">
@@ -327,7 +367,7 @@
                     <li><strong>Password (opsional):</strong> Isi jika ingin proteksi tambahan. Kosongkan jika tidak perlu</li>
                     <li>Klik "Generate SafeLink"</li>
                     <li>URL otomatis dikompress menjadi lebih pendek (50-70% lebih singkat)</li>
-                    <li>Salin link yang dihasilkan dan bagikan</li>
+                    <li>Gunakan tombol "Perpendek Link" jika ingin versi super pendek untuk social media</li>
                     <li>Link dapat diakses dengan format: https://, http://, www, atau non-www</li>
                 </ul>
             </div>
@@ -339,15 +379,20 @@
                 <strong>URL Asli:</strong><br>
                 https://drive.google.com/file/d/1234567890abcdef/view<br><br>
                 
-                <strong>Menjadi SafeLink (PENDEK):</strong><br>
+                <strong>Menjadi SafeLink (Compressed):</strong><br>
                 https://safelinkurl.wahyu-blogger.site/safelink.html?url=N4Ig...<br><br>
+                
+                <strong>Diperpendek via TinyURL (Opsional):</strong><br>
+                https://tinyurl.com/abc123<br>
+                <small style="color: #666;">↑ Klik ini → Redirect ke SafeLink Anda → Countdown + Ads muncul</small><br><br>
                 
                 <strong>Keuntungan:</strong><br>
                 ✓ URL asli tersembunyi<br>
                 ✓ Link lebih pendek (50-70% lebih singkat)<br>
                 ✓ Countdown timer 5 detik<br>
-                ✓ Ruang untuk iklan<br>
-                ✓ Tracking potensial
+                ✓ Ruang untuk iklan di domain Anda<br>
+                ✓ Password protection (opsional)<br>
+                ✓ TinyURL hanya shortcut, semua proses di domain Anda
             </div>
         </div>
     </div>
@@ -409,19 +454,42 @@
             // Scroll ke hasil
             document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
+        
+        function shortenManually() {
+            const safelink = document.getElementById('safelink').textContent;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(safelink).then(function() {
+                // Open TinyURL in new tab with URL pre-filled
+                const tinyUrlCreate = `https://tinyurl.com/create.php?url=${encodeURIComponent(safelink)}`;
+                window.open(tinyUrlCreate, '_blank');
+                
+                // Show confirmation
+                alert('✅ Link sudah ter-copy!\n\n📋 TinyURL terbuka di tab baru dengan link sudah terisi.\n\nKlik "Make TinyURL!" untuk perpendek link.\n\n💡 Link pendek akan redirect ke SafeLink Anda - countdown & iklan tetap muncul!');
+            }, function(err) {
+                // If copy fails, just open TinyURL
+                const tinyUrlCreate = `https://tinyurl.com/create.php?url=${encodeURIComponent(safelink)}`;
+                window.open(tinyUrlCreate, '_blank');
+                
+                alert('📋 TinyURL terbuka di tab baru.\n\nPaste (Ctrl+V) link di kolom yang tersedia, lalu klik "Make TinyURL!"');
+            });
+        }
 
         function copySafeLink() {
             const safelink = document.getElementById('safelink').textContent;
-            const copyBtn = document.getElementById('copyBtn');
+            const copyBtn = event.target;
 
             navigator.clipboard.writeText(safelink).then(function() {
+                // Simpan text asli
+                const originalText = copyBtn.textContent;
+                
                 // Ubah teks tombol
                 copyBtn.textContent = '✅ Tersalin!';
                 copyBtn.classList.add('copied');
 
                 // Kembalikan setelah 2 detik
                 setTimeout(function() {
-                    copyBtn.textContent = '📋 Salin Link';
+                    copyBtn.textContent = originalText;
                     copyBtn.classList.remove('copied');
                 }, 2000);
             }, function(err) {
