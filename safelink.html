@@ -184,19 +184,35 @@
         </div>
     </div>
 
+    <!-- LZString Library for Decompression -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+
     <script>
-        // Fungsi dekripsi Base64
+        // Fungsi dekripsi - support compressed & Base64 legacy
         function decryptURL(encrypted) {
             try {
+                // Try decompression first (new format)
+                const decompressed = LZString.decompressFromEncodedURIComponent(encrypted);
+                if (decompressed) {
+                    return decompressed;
+                }
+                
+                // Fallback to Base64 (old format - backward compatibility)
                 return atob(encrypted);
             } catch (e) {
                 return null;
             }
         }
 
-        // Ambil parameter URL
+        // Ambil parameter URL (support multiple parameter names)
         const urlParams = new URLSearchParams(window.location.search);
-        const encryptedURL = urlParams.get('url') || urlParams.get('go') || urlParams.get('link');
+        const encryptedURL = urlParams.get('url') || 
+                            urlParams.get('go') || 
+                            urlParams.get('link') || 
+                            urlParams.get('to') || 
+                            urlParams.get('redirect') ||
+                            urlParams.get('s') ||
+                            urlParams.get('d');
         
         let targetURL = null;
         let countdown = 5; // Waktu countdown dalam detik
