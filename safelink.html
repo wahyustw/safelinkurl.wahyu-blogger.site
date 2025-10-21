@@ -206,13 +206,24 @@
             (320x100 atau sesuai kebutuhan)
         </div>
 
-        <div class="countdown-box">
-            <div class="spinner"></div>
-            <div class="countdown-label">Mohon tunggu</div>
+        <div class="countdown-box" id="countdownBox">
+            <div class="spinner" id="spinner"></div>
+            <div class="countdown-label" id="countdownLabel">Mohon tunggu</div>
             <div class="countdown" id="countdown">5</div>
             <div class="countdown-label">detik</div>
             <div class="progress-bar">
                 <div class="progress" id="progress"></div>
+            </div>
+        </div>
+
+        <div class="password-box" id="passwordBox">
+            <label class="password-label">🔑 Masukkan Password untuk Akses Link</label>
+            <input type="password" class="password-input" id="passwordInput" placeholder="Password" onkeypress="if(event.key==='Enter') checkPassword()">
+            <button class="btn" style="display: inline-block; width: 100%;" onclick="checkPassword()">
+                Verifikasi Password
+            </button>
+            <div class="password-error" id="passwordError">
+                ❌ Password salah! Silakan coba lagi.
             </div>
         </div>
 
@@ -237,15 +248,25 @@
         // Fungsi dekripsi - support compressed & Base64 legacy
         function decryptURL(encrypted) {
             try {
-                // Try decompression first (new format)
+                // Try decompression first (new format with password support)
                 const decompressed = LZString.decompressFromEncodedURIComponent(encrypted);
+                
                 if (decompressed) {
-                    return decompressed;
+                    // Try parse as JSON (new format)
+                    try {
+                        const dataObject = JSON.parse(decompressed);
+                        return dataObject;
+                    } catch(e) {
+                        // Not JSON, return as plain URL (old compressed format)
+                        return { url: decompressed, pwd: null };
+                    }
                 }
                 
                 // Fallback to Base64 (old format - backward compatibility)
-                return atob(encrypted);
+                const base64Decoded = atob(encrypted);
+                return { url: base64Decoded, pwd: null };
             } catch (e) {
+                console.error('Decryption error:', e);
                 return null;
             }
         }
@@ -261,22 +282,29 @@
                             urlParams.get('d');
         
         let targetURL = null;
+        let requiredPassword = null;
         let countdown = 5; // Waktu countdown dalam detik
         let startTime = Date.now();
         let duration = countdown * 1000;
 
         // Cek apakah ada URL terenkripsi
         if (encryptedURL) {
-            targetURL = decryptURL(encryptedURL);
+            const decryptedData = decryptURL(encryptedURL);
             
-            if (!targetURL || !targetURL.startsWith('http')) {
+            if (decryptedData && decryptedData.url && decryptedData.url.startsWith('http')) {
+                targetURL = decryptedData.url;
+                requiredPassword = decryptedData.pwd;
+                console.log('URL decrypted successfully');
+                console.log('Password required:', requiredPassword ? 'Yes' : 'No');
+            } else {
+                console.error('Invalid URL format');
                 document.getElementById('error').style.display = 'block';
-                document.querySelector('.countdown-box').style.display = 'none';
-                targetURL = null;
+                document.getElementById('countdownBox').style.display = 'none';
             }
         } else {
+            console.error('No encrypted URL parameter found');
             document.getElementById('error').style.display = 'block';
-            document.querySelector('.countdown-box').style.display = 'none';
+            document.getElementById('countdownBox').style.display = 'none';
         }
 
         // Fungsi countdown
@@ -300,17 +328,47 @@
             }
         }
 
-        // Tampilkan tombol
+        // Tampilkan tombol atau password box
         function showButton() {
-            document.querySelector('.spinner').style.display = 'none';
-            document.querySelector('.countdown-box .countdown-label').textContent = 'Link siap diakses!';
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('countdownLabel').textContent = 'Link siap diakses!';
             document.getElementById('countdown').textContent = '✓';
-            document.getElementById('accessBtn').style.display = 'inline-block';
+            
+            // Jika ada password, tampilkan password box
+            if (requiredPassword) {
+                console.log('Showing password box');
+                document.getElementById('passwordBox').classList.add('show');
+                document.getElementById('passwordInput').focus();
+            } else {
+                // Jika tidak ada password, tampilkan tombol akses langsung
+                console.log('No password required, showing access button');
+                document.getElementById('accessBtn').style.display = 'inline-block';
+            }
+        }
+        
+        // Fungsi check password
+        function checkPassword() {
+            const inputPassword = document.getElementById('passwordInput').value;
+            
+            if (inputPassword === requiredPassword) {
+                // Password benar
+                console.log('Password correct');
+                document.getElementById('passwordError').classList.remove('show');
+                document.getElementById('passwordBox').style.display = 'none';
+                redirectToTarget();
+            } else {
+                // Password salah
+                console.log('Password incorrect');
+                document.getElementById('passwordError').classList.add('show');
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
         }
 
         // Redirect ke target
         function redirectToTarget() {
             if (targetURL) {
+                console.log('Redirecting to:', targetURL);
                 window.location.href = targetURL;
             }
         }
