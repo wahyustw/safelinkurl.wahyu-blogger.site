@@ -163,10 +163,52 @@
             background: #f5f5f5;
             border: 2px dashed #ddd;
             border-radius: 10px;
-            padding: 60px 20px;
-            margin: 20px 0;
+            padding: 20px;
+            margin: 20px auto;
             color: #999;
             font-size: 14px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            flex-direction: column;
+        }
+        
+        /* Desktop Ad (468x60) - Only show on desktop */
+        .ad-desktop {
+            width: 100%;
+            max-width: 468px;
+            min-height: 80px;
+            display: none;
+        }
+        
+        /* Mobile Ad (320x50) - Only show on mobile */
+        .ad-mobile {
+            width: 100%;
+            max-width: 320px;
+            min-height: 70px;
+            display: none;
+        }
+        
+        /* Desktop: Show desktop ads, hide mobile ads */
+        @media (min-width: 769px) {
+            .ad-desktop {
+                display: flex;
+            }
+            .ad-mobile {
+                display: none !important;
+            }
+        }
+        
+        /* Mobile: Show mobile ads, hide desktop ads */
+        @media (max-width: 768px) {
+            .ad-desktop {
+                display: none !important;
+            }
+            .ad-mobile {
+                display: flex;
+            }
         }
 
         .spinner {
@@ -200,10 +242,58 @@
         <h1>SafeLink Protection</h1>
         <p class="subtitle">Link Anda dilindungi untuk keamanan maksimal</p>
 
-        <!-- Ad Space -->
-        <div class="ad-space">
-            📢 Ruang Iklan Anda<br>
-            (320x100 atau sesuai kebutuhan)
+        <!-- Ad Space Desktop (468x60) - Hanya tampil di Desktop -->
+        <div class="ad-space ad-desktop" id="adDesktop">
+            <!-- ============================================ -->
+            <!-- PASTE KODE IKLAN ADSTERRA DESKTOP DI SINI   -->
+            <!-- Ukuran: 468x60 pixel                        -->
+            <!-- ============================================ -->
+            
+            📢 Ruang Iklan Desktop<br>(468x60 pixel)
+            
+            <!-- Contoh kode Adsterra Desktop:
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'YOUR_KEY_HERE',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
+            -->
+            
+            <!-- ============================================ -->
+            <!-- AKHIR KODE IKLAN DESKTOP                    -->
+            <!-- ============================================ -->
+        </div>
+
+        <!-- Ad Space Mobile (320x50) - Hanya tampil di Mobile -->
+        <div class="ad-space ad-mobile" id="adMobile">
+            <!-- ============================================ -->
+            <!-- PASTE KODE IKLAN ADSTERRA MOBILE DI SINI    -->
+            <!-- Ukuran: 320x50 pixel                        -->
+            <!-- ============================================ -->
+            
+            📢 Ruang Iklan Mobile<br>(320x50 pixel)
+            
+            <!-- Contoh kode Adsterra Mobile:
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'YOUR_KEY_HERE',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
+            -->
+            
+            <!-- ============================================ -->
+            <!-- AKHIR KODE IKLAN MOBILE                     -->
+            <!-- ============================================ -->
         </div>
 
         <div class="countdown-box" id="countdownBox">
