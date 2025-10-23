@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ads Configuration - Do Not Access Directly</title>
+</head>
+<body>
+    <!-- ========================================
+         ADS CONFIGURATION FILE
+         File ini berisi semua konfigurasi iklan
+         Gunakan dengan cara: <script src="adssettings.html"></script>
+         atau load via JavaScript
+    ========================================= -->
+    
+    <script>
+        // ========================================
+        // ADS CONFIGURATION SETTINGS
+        // ========================================
+        
+        const AdsConfig = {
+            // === ADS VERIFICATION SETTINGS ===
+            // URL untuk verifikasi link sebelum redirect
+            verificationURL: 'https://offensivefountainrabbit.com/a90dwxa6?key=702e03348d76e695e837465455e9e37b',
+            
+            // === ADS PLACEMENT SETTINGS ===
+            // Aktifkan/nonaktifkan berbagai posisi iklan
+            enableTopAd: true,           // Iklan di atas countdown
+            enableMiddleAd: true,        // Iklan di tengah halaman
+            enableBottomAd: true,        // Iklan di bawah tombol
+            enableSideAds: true,         // Iklan di sisi kiri/kanan (desktop only)
+            
+            // === ADS CODE SECTIONS ===
+            // Masukkan kode iklan Anda di sini
+            
+            // Top Ad (Di atas countdown box)
+            topAdCode: `
+                <!-- Top Ad Space - 468x60 atau 728x90 -->
+                <div class="ad-space ad-desktop">
+                    <p>📢 Advertisement Space (Desktop)</p>
+                    <p style="font-size: 12px; margin-top: 10px;">468x60 atau 728x90</p>
+                    <!-- Taruh kode iklan disini -->
+                </div>
+                <div class="ad-space ad-mobile">
+                    <p>📢 Advertisement Space (Mobile)</p>
+                    <p style="font-size: 12px; margin-top: 10px;">320x50 atau 320x100</p>
+                    <!-- Taruh kode iklan disini -->
+                </div>
+            `,
+            
+            // Middle Ad (Di tengah halaman, setelah countdown)
+            middleAdCode: `
+                <!-- Middle Ad Space - 336x280 atau 300x250 -->
+                <div class="ad-space">
+                    <p>📢 Advertisement Space</p>
+                    <p style="font-size: 12px; margin-top: 10px;">336x280 atau 300x250</p>
+                    <!-- Taruh kode iklan disini -->
+                </div>
+            `,
+            
+            // Bottom Ad (Di bawah tombol akses)
+            bottomAdCode: `
+                <!-- Bottom Ad Space - 468x60 atau 728x90 -->
+                <div class="ad-space ad-desktop">
+                    <p>📢 Advertisement Space (Desktop)</p>
+                    <p style="font-size: 12px; margin-top: 10px;">468x60 atau 728x90</p>
+                    <!-- Taruh kode iklan disini -->
+                </div>
+                <div class="ad-space ad-mobile">
+                    <p>📢 Advertisement Space (Mobile)</p>
+                    <p style="font-size: 12px; margin-top: 10px;">320x50 atau 320x100</p>
+                    <!-- Taruh kode iklan disini -->
+                </div>
+            `,
+            
+            // Side Ads (Kiri dan Kanan - Desktop Only)
+            leftSideAdCode: `
+                <!-- Left Side Ad - 300x600 atau 160x600 -->
+                <div class="side-ad-inner">
+                    <p style="color: #999;">📢 Left Side Ad</p>
+                    <p style="font-size: 12px; margin-top: 10px; color: #999;">300x600 atau 160x600</p>
+                    <!-- Taruh kode iklan disini -->
+                </div>
+            `,
+            
+            rightSideAdCode: `
+                <!-- Right Side Ad - 300x600 atau 160x600 -->
+                <div class="side-ad-inner">
+                    <p style="color: #999;">📢 Right Side Ad</p>
+                    <p style="font-size: 12px; margin-top: 10px; color: #999;">300x600 atau 160x600</p>
+                    <!-- Taruh kode iklan disini -->
+                </div>
+            `,
+            
+            // === EXAMPLE ADS CODE (Google AdSense) ===
+            // Uncomment dan ganti dengan kode iklan Anda yang sebenarnya
+            
+            /*
+            topAdCode: `
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+                     crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:728px;height:90px"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            `,
+            */
+            
+            // === EXAMPLE ADS CODE (PropellerAds) ===
+            /*
+            middleAdCode: `
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'YOUR_KEY_HERE',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                    document.write('<scr' + 'ipt type="text/javascript" src="//www.topcreativeformat.com/YOUR_KEY/invoke.js"></scr' + 'ipt>');
+                </script>
+            `,
+            */
+        };
+        
+        // ========================================
+        // ADS INJECTION FUNCTIONS
+        // Fungsi untuk inject iklan ke halaman
+        // ========================================
+        
+        function injectTopAd() {
+            if (!AdsConfig.enableTopAd) return;
+            const topAdContainer = document.getElementById('topAdContainer');
+            if (topAdContainer) {
+                topAdContainer.innerHTML = AdsConfig.topAdCode;
+            }
+        }
+        
+        function injectMiddleAd() {
+            if (!AdsConfig.enableMiddleAd) return;
+            const middleAdContainer = document.getElementById('middleAdContainer');
+            if (middleAdContainer) {
+                middleAdContainer.innerHTML = AdsConfig.middleAdCode;
+            }
+        }
+        
+        function injectBottomAd() {
+            if (!AdsConfig.enableBottomAd) return;
+            const bottomAdContainer = document.getElementById('bottomAdContainer');
+            if (bottomAdContainer) {
+                bottomAdContainer.innerHTML = AdsConfig.bottomAdCode;
+            }
+        }
+        
+        function injectSideAds() {
+            if (!AdsConfig.enableSideAds) return;
+            
+            const leftSideAd = document.getElementById('leftSideAd');
+            if (leftSideAd) {
+                leftSideAd.innerHTML = AdsConfig.leftSideAdCode;
+            }
+            
+            const rightSideAd = document.getElementById('rightSideAd');
+            if (rightSideAd) {
+                rightSideAd.innerHTML = AdsConfig.rightSideAdCode;
+            }
+        }
+        
+        // Auto inject all ads when DOM is ready
+        function initializeAds() {
+            injectTopAd();
+            injectMiddleAd();
+            injectBottomAd();
+            injectSideAds();
+        }
+        
+        // Initialize ads when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeAds);
+        } else {
+            initializeAds();
+        }
+        
+        // Export untuk digunakan di file lain jika diperlukan
+        if (typeof module !== 'undefined' && module.exports) {
+            module.exports = AdsConfig;
+        }
+        
+        // Expose ke window object
+        window.AdsConfig = AdsConfig;
+        
+    </script>
+</body>
+</html>
