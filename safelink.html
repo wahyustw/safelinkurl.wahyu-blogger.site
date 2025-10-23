@@ -68,51 +68,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .ad-placeholder {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            min-height: 600px;
-        }
-
-        .ad-placeholder-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .ad-placeholder-title {
-            color: #667eea;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .ad-placeholder-size {
-            color: #999;
-            font-size: 13px;
-            margin-bottom: 5px;
-        }
-
-        .ad-placeholder-note {
-            color: #666;
-            font-size: 12px;
-            font-style: italic;
-            margin-top: 10px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        /* Hide placeholder when ad is loaded */
-        .side-ad-inner:has(script) .ad-placeholder,
-        .side-ad-inner:has(div[id^="container-"]) .ad-placeholder {
-            display: none;
-        }
-
-        /* Show side ads only on desktop (min-width: 1200px) */
         @media (min-width: 1200px) {
             .side-ad {
                 display: flex;
@@ -273,7 +228,6 @@
             flex-direction: column;
         }
         
-        /* Desktop Ad (468x60) - Only show on desktop */
         .ad-desktop {
             width: 100%;
             max-width: 468px;
@@ -281,7 +235,6 @@
             display: none;
         }
         
-        /* Mobile Ad (320x50) - Only show on mobile */
         .ad-mobile {
             width: 100%;
             max-width: 320px;
@@ -289,7 +242,6 @@
             display: none;
         }
         
-        /* Desktop: Show desktop ads, hide mobile ads */
         @media (min-width: 769px) {
             .ad-desktop {
                 display: flex;
@@ -299,7 +251,6 @@
             }
         }
         
-        /* Mobile: Show mobile ads, hide desktop ads */
         @media (max-width: 768px) {
             .ad-desktop {
                 display: none !important;
@@ -331,6 +282,7 @@
             border-radius: 10px;
             margin: 20px 0;
             display: none;
+            font-size: 14px;
         }
 
         .site-type {
@@ -339,222 +291,92 @@
     </style>
 </head>
 <body data-site-type="safelink" data-service="url-shortener">
-    <!-- Site Type Identifier for Ad Networks -->
     <div class="site-type" id="siteType" data-category="link-shortener" data-service="url-encryption">
         SafeLink URL Shortener & Encryption Service
     </div>
 
     <div class="main-wrapper">
-        <!-- Left Side Ad (Native Banner 1:4 - Desktop Only) -->
         <div class="side-ad" id="leftSideAd">
             <div class="side-ad-inner">
-                <!-- ============================================ -->
-                <!-- PASTE NATIVE BANNER AD CODE HERE (LEFT)     -->
-                <!-- Format: 1:4 Landscape / Vertical Native     -->
-                <!-- Desktop Only (min-width: 1200px)            -->
-                <!-- ============================================ -->
-                
                 📢 Left Native Ad<br>
                 (1:4 Landscape Banner)<br>
                 Desktop Only
-                
-                <!-- Example Native Ad Code:
-                <script async="async" data-cfasync="false" src="//offensivefountainrabbit.com/20705ee71de242ef97180bbb3619145d/invoke.js"></script>
-                <div id="container-20705ee71de242ef97180bbb3619145d"></div>
-                -->
-                
-                <!-- ============================================ -->
-                <!-- END LEFT NATIVE AD CODE                     -->
-                <!-- ============================================ -->
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="container">
-        <div class="logo">🔒</div>
-        <h1>SafeLink Protection</h1>
-        <p class="subtitle">Your link is protected for maximum security</p>
+            <div class="logo">🔒</div>
+            <h1>SafeLink Protection</h1>
+            <p class="subtitle">Your link is protected for maximum security</p>
 
-        <!-- Ad Space Desktop (468x60) - Desktop Only - POSITION 1 -->
-        <div class="ad-space ad-desktop" id="adDesktop">
-            <!-- ============================================ -->
-            <!-- PASTE ADSTERRA DESKTOP AD CODE HERE         -->
-            <!-- Size: 468x60 pixels                         -->
-            <!-- ============================================ -->
-            
-            📢 Desktop Ad Space<br>(468x60 pixels)
-            
-            <!-- Example Adsterra Desktop Code:
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'YOUR_KEY_HERE',
-                    'format' : 'iframe',
-                    'height' : 60,
-                    'width' : 468,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
-            -->
-            
-            <!-- ============================================ -->
-            <!-- END DESKTOP AD CODE                         -->
-            <!-- ============================================ -->
-        </div>
-
-        <!-- Ad Space Mobile (320x50) - Mobile Only - POSITION 1 -->
-        <div class="ad-space ad-mobile" id="adMobile">
-            <!-- ============================================ -->
-            <!-- PASTE ADSTERRA MOBILE AD CODE HERE          -->
-            <!-- Size: 320x50 pixels                         -->
-            <!-- ============================================ -->
-            
-            📢 Mobile Ad Space<br>(320x50 pixels)
-            
-            <!-- Example Adsterra Mobile Code:
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'YOUR_KEY_HERE',
-                    'format' : 'iframe',
-                    'height' : 50,
-                    'width' : 320,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
-            -->
-            
-            <!-- ============================================ -->
-            <!-- END MOBILE AD CODE                          -->
-            <!-- ============================================ -->
-        </div>
-
-        <div class="countdown-box" id="countdownBox">
-            <div class="spinner" id="spinner"></div>
-            <div class="countdown-label" id="countdownLabel">Please wait</div>
-            <div class="countdown" id="countdown">5</div>
-            <div class="countdown-label">seconds</div>
-            <div class="progress-bar">
-                <div class="progress" id="progress"></div>
+            <div class="ad-space ad-desktop" id="adDesktop">
+                📢 Desktop Ad Space<br>(468x60 pixels)
             </div>
-        </div>
 
-        <!-- Ad Space Desktop (468x60) - Desktop Only - POSITION 2 -->
-        <div class="ad-space ad-desktop" id="adDesktop2">
-            <!-- ============================================ -->
-            <!-- PASTE ADSTERRA DESKTOP AD CODE HERE         -->
-            <!-- Size: 468x60 pixels                         -->
-            <!-- ============================================ -->
-            
-            📢 Desktop Ad Space 2<br>(468x60 pixels)
-            
-            <!-- Example Adsterra Desktop Code:
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'YOUR_KEY_HERE',
-                    'format' : 'iframe',
-                    'height' : 60,
-                    'width' : 468,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
-            -->
-            
-            <!-- ============================================ -->
-            <!-- END DESKTOP AD CODE                         -->
-            <!-- ============================================ -->
-        </div>
+            <div class="ad-space ad-mobile" id="adMobile">
+                📢 Mobile Ad Space<br>(320x50 pixels)
+            </div>
 
-        <!-- Ad Space Mobile (320x50) - Mobile Only - POSITION 2 -->
-        <div class="ad-space ad-mobile" id="adMobile2">
-            <!-- ============================================ -->
-            <!-- PASTE ADSTERRA MOBILE AD CODE HERE          -->
-            <!-- Size: 320x50 pixels                         -->
-            <!-- ============================================ -->
-            
-            📢 Mobile Ad Space 2<br>(320x50 pixels)
-            
-            <!-- Example Adsterra Mobile Code:
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'YOUR_KEY_HERE',
-                    'format' : 'iframe',
-                    'height' : 50,
-                    'width' : 320,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
-            -->
-            
-            <!-- ============================================ -->
-            <!-- END MOBILE AD CODE                          -->
-            <!-- ============================================ -->
-        </div>
+            <div class="countdown-box" id="countdownBox">
+                <div class="spinner" id="spinner"></div>
+                <div class="countdown-label" id="countdownLabel">Please wait</div>
+                <div class="countdown" id="countdown">5</div>
+                <div class="countdown-label">seconds</div>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+            </div>
 
-        <div class="password-box" id="passwordBox">
-            <label class="password-label">🔐 Enter Password to Access Link</label>
-            <input type="password" class="password-input" id="passwordInput" placeholder="Password" onkeypress="if(event.key==='Enter') checkPassword()">
-            <button class="btn" style="display: inline-block; width: 100%;" onclick="checkPassword()">
-                Verify Password
+            <div class="ad-space ad-desktop" id="adDesktop2">
+                📢 Desktop Ad Space 2<br>(468x60 pixels)
+            </div>
+
+            <div class="ad-space ad-mobile" id="adMobile2">
+                📢 Mobile Ad Space 2<br>(320x50 pixels)
+            </div>
+
+            <div class="password-box" id="passwordBox">
+                <label class="password-label">🔐 Enter Password to Access Link</label>
+                <input type="password" class="password-input" id="passwordInput" placeholder="Password" onkeypress="if(event.key==='Enter') checkPassword()">
+                <button class="btn" style="display: inline-block; width: 100%;" onclick="checkPassword()">
+                    Verify Password
+                </button>
+                <div class="password-error" id="passwordError">
+                    ❌ Incorrect password! Please try again.
+                </div>
+            </div>
+
+            <button class="btn" id="verifyBtn" onclick="verifyLink()">
+                ✅ Verify Link
             </button>
-            <div class="password-error" id="passwordError">
-                ❌ Incorrect password! Please try again.
+
+            <button class="btn" id="accessBtn" onclick="redirectToTarget()">
+                🔓 Access Link Now
+            </button>
+
+            <div class="error" id="error">
+                ❌ Invalid or expired link. Please check the URL and try again.
+            </div>
+
+            <div class="info">
+                ⚠️ You will be redirected to the destination link in a few seconds.<br>
+                This link has been verified and is safe to access.
             </div>
         </div>
 
-        <button class="btn" id="verifyBtn" onclick="verifyLink()">
-            ✅ Verify Link
-        </button>
-
-        <button class="btn" id="accessBtn" onclick="redirectToTarget()">
-            🔓 Access Link Now
-        </button>
-
-        <div class="error" id="error">
-            ❌ Invalid or expired link
-        </div>
-
-        <div class="info">
-            ⚠️ You will be redirected to the destination link in a few seconds.<br>
-            This link has been verified and is safe to access.
-        </div>
-    </div>
-    <!-- End Main Content -->
-
-    <!-- Right Side Ad (Native Banner 1:4 - Desktop Only) -->
-    <div class="side-ad" id="rightSideAd">
-        <div class="side-ad-inner">
-            <!-- ============================================ -->
-            <!-- PASTE NATIVE BANNER AD CODE HERE (RIGHT)    -->
-            <!-- Format: 1:4 Landscape / Vertical Native     -->
-            <!-- Desktop Only (min-width: 1200px)            -->
-            <!-- ============================================ -->
-            
-            📢 Right Native Ad<br>
-            (1:4 Landscape Banner)<br>
-            Desktop Only
-            
-            <!-- Example Native Ad Code:
-            <script async="async" data-cfasync="false" src="//offensivefountainrabbit.com/20705ee71de242ef97180bbb3619145d/invoke.js"></script>
-            <div id="container-20705ee71de242ef97180bbb3619145d"></div>
-            -->
-            
-            <!-- ============================================ -->
-            <!-- END RIGHT NATIVE AD CODE                    -->
-            <!-- ============================================ -->
+        <div class="side-ad" id="rightSideAd">
+            <div class="side-ad-inner">
+                📢 Right Native Ad<br>
+                (1:4 Landscape Banner)<br>
+                Desktop Only
+            </div>
         </div>
     </div>
 
-</div>
-<!-- End Main Wrapper -->
-
-    <!-- LZString Library for Decompression -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
     <script>
-        // Security: Prevent console tampering
+        // Security measures
         (function() {
             const noop = function() {};
             const methods = ['log', 'warn', 'error', 'info', 'debug'];
@@ -563,46 +385,100 @@
             });
         })();
 
-        // Security: Disable right-click
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
 
-        // Security: Disable F12, Ctrl+Shift+I, Ctrl+U
         document.addEventListener('keydown', function(e) {
-            if (e.keyCode === 123 || // F12
-                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
-                (e.ctrlKey && e.keyCode === 85)) { // Ctrl+U
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
+                (e.ctrlKey && e.keyCode === 85)) {
                 e.preventDefault();
             }
         });
 
-        // Decryption function - supports compressed & Base64 legacy
+        // NEW: SHA-256 Password Hashing for verification
+        async function hashPassword(password) {
+            if (!password) return null;
+            
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // IMPROVED: Enhanced decryption with better error handling
         function decryptURL(encrypted) {
             try {
-                // Try decompression first (new format with password support)
+                if (!encrypted) {
+                    throw new Error('No encrypted data provided');
+                }
+
+                // Try decompression first
                 const decompressed = LZString.decompressFromEncodedURIComponent(encrypted);
                 
                 if (decompressed) {
-                    // Try parse as JSON (new format)
                     try {
                         const dataObject = JSON.parse(decompressed);
+                        
+                        // Validate decrypted data structure
+                        if (!dataObject.url) {
+                            throw new Error('Invalid data structure');
+                        }
+                        
                         return dataObject;
                     } catch(e) {
-                        // Not JSON, return as plain URL (old compressed format)
+                        // Not JSON, treat as plain URL (old format)
                         return { url: decompressed, pwd: null };
                     }
                 }
                 
-                // Fallback to Base64 (old format - backward compatibility)
+                // Fallback to Base64 (backward compatibility)
                 const base64Decoded = atob(encrypted);
+                
+                // Validate decoded URL
+                if (!base64Decoded || base64Decoded.length < 10) {
+                    throw new Error('Invalid decoded data');
+                }
+                
                 return { url: base64Decoded, pwd: null };
             } catch (e) {
+                console.error('Decryption error:', e);
                 return null;
             }
         }
 
-        // Get URL parameters (support multiple parameter names)
+        // IMPROVED: URL validation before redirect
+        function isValidURL(url) {
+            if (!url || typeof url !== 'string') return false;
+            
+            try {
+                const urlObj = new URL(url);
+                
+                // Must have http or https protocol
+                if (!['http:', 'https:'].includes(urlObj.protocol)) {
+                    return false;
+                }
+                
+                // Must have a hostname
+                if (!urlObj.hostname || urlObj.hostname.length < 3) {
+                    return false;
+                }
+                
+                // Must have a TLD
+                if (!urlObj.hostname.includes('.')) {
+                    return false;
+                }
+                
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const encryptedURL = urlParams.get('url') || 
                             urlParams.get('go') || 
@@ -614,23 +490,34 @@
         
         let targetURL = null;
         let requiredPassword = null;
-        let countdown = 5; // Countdown time in seconds
+        let countdown = 5;
         let startTime = Date.now();
         let duration = countdown * 1000;
         let isVerified = false;
 
-        // Check if encrypted URL exists
+        // IMPROVED: Enhanced initialization with validation
         if (encryptedURL) {
-            const decryptedData = decryptURL(encryptedURL);
-            
-            if (decryptedData && decryptedData.url && decryptedData.url.startsWith('http')) {
-                targetURL = decryptedData.url;
-                requiredPassword = decryptedData.pwd;
-            } else {
+            try {
+                const decryptedData = decryptURL(encryptedURL);
+                
+                if (decryptedData && decryptedData.url) {
+                    // Validate the decrypted URL
+                    if (isValidURL(decryptedData.url)) {
+                        targetURL = decryptedData.url;
+                        requiredPassword = decryptedData.pwd;
+                    } else {
+                        throw new Error('Invalid target URL format');
+                    }
+                } else {
+                    throw new Error('Failed to decrypt URL');
+                }
+            } catch (error) {
+                console.error('Initialization error:', error);
                 document.getElementById('error').style.display = 'block';
                 document.getElementById('countdownBox').style.display = 'none';
             }
         } else {
+            document.getElementById('error').textContent = '❌ No encrypted URL provided. Please check your link.';
             document.getElementById('error').style.display = 'block';
             document.getElementById('countdownBox').style.display = 'none';
         }
@@ -645,7 +532,6 @@
             
             document.getElementById('countdown').textContent = seconds;
             
-            // Update progress bar
             const progress = ((duration - remaining) / duration) * 100;
             document.getElementById('progress').style.width = progress + '%';
             
@@ -656,92 +542,124 @@
             }
         }
 
-        // Show button or password box
         function showButton() {
             document.getElementById('spinner').style.display = 'none';
             document.getElementById('countdownLabel').textContent = 'Link ready to access!';
             document.getElementById('countdown').textContent = '✓';
             
-            // If password required, show password box
             if (requiredPassword) {
                 document.getElementById('passwordBox').classList.add('show');
                 document.getElementById('passwordInput').focus();
             } else {
-                // No password required, show verify button
                 document.getElementById('verifyBtn').style.display = 'inline-block';
             }
         }
         
-        // Check password function
-        function checkPassword() {
+        // IMPROVED: Password verification with hashing
+        async function checkPassword() {
             const inputPassword = document.getElementById('passwordInput').value;
+            const passwordInput = document.getElementById('passwordInput');
+            const errorMsg = document.getElementById('passwordError');
             
-            if (inputPassword === requiredPassword) {
-                // Password correct
-                document.getElementById('passwordError').classList.remove('show');
-                document.getElementById('passwordBox').style.display = 'none';
-                // Show verify link button after password correct
-                document.getElementById('verifyBtn').style.display = 'inline-block';
-            } else {
-                // Password incorrect
-                document.getElementById('passwordError').classList.add('show');
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordInput').focus();
+            if (!inputPassword) {
+                errorMsg.textContent = '⚠️ Please enter a password';
+                errorMsg.classList.add('show');
+                passwordInput.focus();
+                return;
+            }
+
+            try {
+                // Hash the input password
+                const hashedInput = await hashPassword(inputPassword);
+                
+                // Compare hashed passwords
+                if (hashedInput === requiredPassword) {
+                    errorMsg.classList.remove('show');
+                    document.getElementById('passwordBox').style.display = 'none';
+                    document.getElementById('verifyBtn').style.display = 'inline-block';
+                } else {
+                    errorMsg.textContent = '❌ Incorrect password! Please try again.';
+                    errorMsg.classList.add('show');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            } catch (error) {
+                errorMsg.textContent = '❌ Error verifying password. Please try again.';
+                errorMsg.classList.add('show');
+                console.error('Password verification error:', error);
             }
         }
 
-        // Verify link function (open verification URL in new tab with security)
         function verifyLink() {
-            if (isVerified) return; // Prevent multiple clicks
+            if (isVerified) return;
             
             const verifyURL = 'https://offensivefountainrabbit.com/a90dwxa6?key=702e03348d76e695e837465455e9e37b';
             
-            // Open verification URL in new tab with security attributes
-            const newWindow = window.open(verifyURL, '_blank', 'noopener,noreferrer');
-            
-            // Security: Break connection with parent window
-            if (newWindow) {
-                newWindow.opener = null;
+            try {
+                const newWindow = window.open(verifyURL, '_blank', 'noopener,noreferrer');
+                
+                if (newWindow) {
+                    newWindow.opener = null;
+                }
+                
+                isVerified = true;
+                
+                document.getElementById('verifyBtn').style.display = 'none';
+                document.getElementById('accessBtn').style.display = 'inline-block';
+            } catch (error) {
+                alert('❌ Unable to open verification window. Please allow pop-ups for this site.');
+                console.error('Verification error:', error);
             }
-            
-            isVerified = true;
-            
-            // Change "Verify Link" button to "Access Link Now"
-            document.getElementById('verifyBtn').style.display = 'none';
-            document.getElementById('accessBtn').style.display = 'inline-block';
         }
 
-        // Redirect to target with security
+        // IMPROVED: Secure redirect with validation
         function redirectToTarget() {
-            if (targetURL && isVerified) {
-                // Add rel="noopener noreferrer" security
+            if (!targetURL) {
+                alert('❌ No target URL available');
+                return;
+            }
+
+            if (!isVerified) {
+                alert('⚠️ Please verify the link first by clicking "Verify Link" button');
+                return;
+            }
+
+            // Final validation before redirect
+            if (!isValidURL(targetURL)) {
+                alert('❌ Invalid target URL. Cannot redirect.');
+                return;
+            }
+
+            try {
+                // Secure redirect
                 const a = document.createElement('a');
                 a.href = targetURL;
                 a.rel = 'noopener noreferrer';
                 a.target = '_self';
                 
-                // Prevent referrer leakage
                 if (document.referrer) {
                     window.location.replace(targetURL);
                 } else {
                     window.location.href = targetURL;
                 }
+            } catch (error) {
+                alert('❌ Error redirecting to target URL: ' + error.message);
+                console.error('Redirect error:', error);
             }
         }
 
-        // Start countdown if URL is valid
+        // Start countdown
         if (targetURL) {
             updateCountdown();
         }
 
-        // Security: Clear history on page unload
+        // Security: History management
         window.addEventListener('beforeunload', function() {
             if (window.history && window.history.pushState) {
                 window.history.pushState(null, '', window.location.href);
             }
         });
 
-        // Security: Prevent back button after redirect
         if (window.history && window.history.pushState) {
             window.history.pushState(null, '', window.location.href);
             window.addEventListener('popstate', function() {
