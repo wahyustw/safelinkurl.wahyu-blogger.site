@@ -68,6 +68,7 @@
 
         .form-group {
             margin-bottom: 25px;
+            position: relative;
         }
 
         label {
@@ -92,6 +93,34 @@
             border-color: #667eea;
         }
 
+        input.error {
+            border-color: #ef4444;
+        }
+
+        input.success {
+            border-color: #10b981;
+        }
+
+        .validation-message {
+            display: none;
+            font-size: 13px;
+            margin-top: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .validation-message.error {
+            display: block;
+            color: #dc2626;
+            background: #fee;
+        }
+
+        .validation-message.success {
+            display: block;
+            color: #059669;
+            background: #d1fae5;
+        }
+
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -103,15 +132,44 @@
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             width: 100%;
+            position: relative;
         }
 
-        .btn:hover {
+        .btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        .btn:active {
+        .btn:active:not(:disabled) {
             transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-loading {
+            pointer-events: none;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .result {
@@ -284,10 +342,23 @@
         .site-type {
             display: none;
         }
+
+        .security-notice {
+            background: #e0f2fe;
+            border-left: 4px solid #0ea5e9;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #0c4a6e;
+        }
+
+        .security-notice strong {
+            color: #0369a1;
+        }
     </style>
 </head>
 <body data-site-type="safelink-generator" data-service="url-shortener-tool">
-    <!-- Site Type Identifier for Ad Networks -->
     <div class="site-type" id="siteType" data-category="link-shortener-generator" data-service="url-encryption-tool">
         SafeLink Generator - URL Shortener & Encryption Tool
     </div>
@@ -303,6 +374,7 @@
             <div class="form-group">
                 <label for="targetUrl">🔗 Target URL (to be encrypted)</label>
                 <input type="url" id="targetUrl" placeholder="https://example.com/file.pdf" required>
+                <div id="urlValidation" class="validation-message"></div>
             </div>
 
             <div class="settings">
@@ -326,10 +398,13 @@
                     <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
                         💡 If filled, visitors must enter password to access the link
                     </small>
+                    <div class="security-notice">
+                        <strong>🔐 Enhanced Security:</strong> Password will be encrypted with SHA-256 hashing for maximum protection
+                    </div>
                 </div>
             </div>
 
-            <button class="btn" onclick="generateSafeLink()">
+            <button class="btn" id="generateBtn" onclick="generateSafeLink()">
                 ✨ Generate SafeLink
             </button>
 
@@ -414,7 +489,7 @@
                 ✓ Link shorter (50-70% smaller)<br>
                 ✓ 5 second countdown timer<br>
                 ✓ Space for ads on your domain<br>
-                ✓ Password protection (optional)<br>
+                ✓ Password protection with SHA-256 encryption<br>
                 ✓ TinyURL is just shortcut, all process on your domain
             </div>
         </div>
@@ -431,81 +506,199 @@
 
         // Security: Disable F12, Ctrl+Shift+I, Ctrl+U
         document.addEventListener('keydown', function(e) {
-            if (e.keyCode === 123 || // F12
-                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
-                (e.ctrlKey && e.keyCode === 85)) { // Ctrl+U
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
+                (e.ctrlKey && e.keyCode === 85)) {
                 e.preventDefault();
             }
         });
 
-        function generateSafeLink() {
-            // Base URL fixed (support various formats)
+        // IMPROVED: Enhanced URL Validation
+        function validateURL(url) {
+            const validationMsg = document.getElementById('urlValidation');
+            const input = document.getElementById('targetUrl');
+            
+            // Check if empty
+            if (!url || url.trim() === '') {
+                input.classList.remove('success');
+                input.classList.add('error');
+                validationMsg.className = 'validation-message error';
+                validationMsg.textContent = '❌ URL cannot be empty';
+                return false;
+            }
+
+            // Check minimum length
+            if (url.length < 10) {
+                input.classList.remove('success');
+                input.classList.add('error');
+                validationMsg.className = 'validation-message error';
+                validationMsg.textContent = '❌ URL too short. Please enter a valid URL';
+                return false;
+            }
+
+            // Check protocol
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                input.classList.remove('success');
+                input.classList.add('error');
+                validationMsg.className = 'validation-message error';
+                validationMsg.textContent = '❌ URL must start with http:// or https://';
+                return false;
+            }
+
+            // Try to parse URL
+            try {
+                const urlObj = new URL(url);
+                
+                // Check if domain exists
+                if (!urlObj.hostname || urlObj.hostname.length < 3) {
+                    throw new Error('Invalid hostname');
+                }
+
+                // Check if TLD exists
+                if (!urlObj.hostname.includes('.')) {
+                    throw new Error('Invalid domain - missing TLD');
+                }
+
+                // Check for localhost/private IPs (optional security)
+                const hostname = urlObj.hostname.toLowerCase();
+                const privatePatterns = ['localhost', '127.0.0.1', '0.0.0.0', '::1'];
+                if (privatePatterns.some(pattern => hostname === pattern || hostname.startsWith(pattern))) {
+                    input.classList.remove('success');
+                    input.classList.add('error');
+                    validationMsg.className = 'validation-message error';
+                    validationMsg.textContent = '⚠️ Local URLs cannot be used for public SafeLinks';
+                    return false;
+                }
+
+                // Check for valid TLD
+                const tld = urlObj.hostname.split('.').pop();
+                if (tld.length < 2 || !/^[a-z]+$/i.test(tld)) {
+                    throw new Error('Invalid TLD');
+                }
+
+                // All checks passed
+                input.classList.remove('error');
+                input.classList.add('success');
+                validationMsg.className = 'validation-message success';
+                validationMsg.textContent = '✓ Valid URL';
+                return true;
+
+            } catch (e) {
+                input.classList.remove('success');
+                input.classList.add('error');
+                validationMsg.className = 'validation-message error';
+                validationMsg.textContent = '❌ Invalid URL format. Please check your URL';
+                return false;
+            }
+        }
+
+        // Real-time URL validation
+        document.getElementById('targetUrl').addEventListener('input', function(e) {
+            const url = e.target.value.trim();
+            if (url.length > 0) {
+                validateURL(url);
+            } else {
+                e.target.classList.remove('success', 'error');
+                document.getElementById('urlValidation').style.display = 'none';
+            }
+        });
+
+        // NEW: SHA-256 Password Hashing Function
+        async function hashPassword(password) {
+            if (!password) return null;
+            
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // IMPROVED: Generate SafeLink with better error handling
+        async function generateSafeLink() {
             const baseUrl = 'https://safelinkurl.wahyu-blogger.site';
             const targetUrl = document.getElementById('targetUrl').value.trim();
             const paramName = document.getElementById('paramName').value;
             const password = document.getElementById('password').value.trim();
+            const generateBtn = document.getElementById('generateBtn');
 
-            // Validation
-            if (!targetUrl) {
-                alert('❌ Please enter target URL!');
+            // Validate URL first
+            if (!validateURL(targetUrl)) {
                 return;
             }
 
-            // URL Validation
+            // Show loading state
+            generateBtn.disabled = true;
+            generateBtn.classList.add('btn-loading');
+            const originalText = generateBtn.textContent;
+            generateBtn.textContent = 'Generating...';
+
             try {
-                new URL(targetUrl);
-            } catch (e) {
-                alert('❌ Invalid URL format! Make sure it starts with http:// or https://');
-                return;
+                // Hash password if exists (SECURITY IMPROVEMENT)
+                const hashedPassword = await hashPassword(password);
+                
+                // Create data object with hashed password
+                const dataObject = {
+                    url: targetUrl,
+                    pwd: hashedPassword
+                };
+                
+                // Convert to JSON and compress
+                const jsonString = JSON.stringify(dataObject);
+                const compressed = LZString.compressToEncodedURIComponent(jsonString);
+                
+                // Create SafeLink
+                const safeLink = `${baseUrl}/safelink.html?${paramName}=${compressed}`;
+
+                // Calculate statistics
+                const originalLength = targetUrl.length;
+                const shortenedLength = compressed.length;
+                const compressionRate = Math.round((1 - shortenedLength / originalLength) * 100);
+
+                // Display results
+                document.getElementById('safelink').textContent = safeLink;
+                document.getElementById('previewLink').href = safeLink;
+                document.getElementById('originalLength').textContent = originalLength;
+                document.getElementById('shortenedLength').textContent = shortenedLength;
+                document.getElementById('compression').textContent = compressionRate + '%';
+                document.getElementById('result').classList.add('show');
+
+                // Scroll to results
+                setTimeout(() => {
+                    document.getElementById('result').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest' 
+                    });
+                }, 100);
+
+            } catch (error) {
+                // IMPROVED: Better error handling
+                alert('❌ Error generating SafeLink: ' + error.message + '\n\nPlease try again or contact support if the problem persists.');
+                console.error('Generation error:', error);
+            } finally {
+                // Restore button state
+                generateBtn.disabled = false;
+                generateBtn.classList.remove('btn-loading');
+                generateBtn.textContent = originalText;
             }
-
-            // COMPRESSION + ENCRYPTION (shorter!)
-            // Step 1: Create data object (URL + password if exists)
-            const dataObject = {
-                url: targetUrl,
-                pwd: password || null
-            };
-            
-            // Step 2: Convert to JSON string
-            const jsonString = JSON.stringify(dataObject);
-            
-            // Step 3: Compress with LZString
-            const compressed = LZString.compressToEncodedURIComponent(jsonString);
-            
-            // Create SafeLink with compressed URL
-            const safeLink = `${baseUrl}/safelink.html?${paramName}=${compressed}`;
-
-            // Calculate statistics
-            const originalLength = targetUrl.length;
-            const shortenedLength = compressed.length;
-            const compressionRate = Math.round((1 - shortenedLength / originalLength) * 100);
-
-            // Display results
-            document.getElementById('safelink').textContent = safeLink;
-            document.getElementById('previewLink').href = safeLink;
-            document.getElementById('originalLength').textContent = originalLength;
-            document.getElementById('shortenedLength').textContent = shortenedLength;
-            document.getElementById('compression').textContent = compressionRate + '%';
-            document.getElementById('result').classList.add('show');
-
-            // Scroll to results
-            document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
         
         function shortenManually() {
             const safelink = document.getElementById('safelink').textContent;
             
-            // Copy to clipboard
+            if (!safelink) {
+                alert('⚠️ Please generate a SafeLink first!');
+                return;
+            }
+
             navigator.clipboard.writeText(safelink).then(function() {
-                // Open TinyURL in new tab with URL pre-filled (with security)
                 const tinyUrlCreate = `https://tinyurl.com/create.php?url=${encodeURIComponent(safelink)}`;
                 const newWindow = window.open(tinyUrlCreate, '_blank', 'noopener,noreferrer');
                 if (newWindow) newWindow.opener = null;
                 
-                // Show confirmation
                 alert('✅ Link already copied!\n\n📋 TinyURL opened in new tab with link pre-filled.\n\nClick "Make TinyURL!" to shorten link.\n\n💡 Short link will redirect to your SafeLink - countdown & ads still appear!');
             }, function(err) {
-                // If copy fails, just open TinyURL
                 const tinyUrlCreate = `https://tinyurl.com/create.php?url=${encodeURIComponent(safelink)}`;
                 const newWindow = window.open(tinyUrlCreate, '_blank', 'noopener,noreferrer');
                 if (newWindow) newWindow.opener = null;
@@ -518,27 +711,29 @@
             const safelink = document.getElementById('safelink').textContent;
             const copyBtn = event.target;
 
+            if (!safelink) {
+                alert('⚠️ No link to copy!');
+                return;
+            }
+
             navigator.clipboard.writeText(safelink).then(function() {
-                // Save original text
                 const originalText = copyBtn.textContent;
-                
-                // Change button text
                 copyBtn.textContent = '✅ Copied!';
                 copyBtn.classList.add('copied');
 
-                // Restore after 2 seconds
                 setTimeout(function() {
                     copyBtn.textContent = originalText;
                     copyBtn.classList.remove('copied');
                 }, 2000);
             }, function(err) {
-                alert('❌ Failed to copy: ' + err);
+                alert('❌ Failed to copy: ' + err.message);
             });
         }
 
         // Allow Enter key to generate
         document.getElementById('targetUrl').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
+                e.preventDefault();
                 generateSafeLink();
             }
         });
