@@ -246,135 +246,158 @@
             .ad-desktop {
                 display: flex;
             }
+            .ad-mobile {
+                display: none !important;
+            }
         }
         
         @media (max-width: 768px) {
+            .ad-desktop {
+                display: none !important;
+            }
             .ad-mobile {
                 display: flex;
             }
-            
-            .container {
-                padding: 30px 20px;
-            }
-            
-            .countdown {
-                font-size: 56px;
-            }
-        }
-
-        .error {
-            display: none;
-            background: #fee;
-            color: #c33;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border-left: 4px solid #c33;
         }
 
         .spinner {
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top: 3px solid white;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
             border-radius: 50%;
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
-            margin: 20px auto;
+            margin: 0 auto 15px;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+            font-size: 14px;
+        }
+
+        .site-type {
+            display: none;
+        }
     </style>
 </head>
-<body>
+<body data-site-type="safelink" data-service="url-shortener">
+    <div class="site-type" id="siteType" data-category="link-shortener" data-service="url-encryption">
+        SafeLink URL Shortener & Encryption Service
+    </div>
+
     <div class="main-wrapper">
-        <!-- Left Side Ad -->
         <div class="side-ad" id="leftSideAd">
-            <!-- Ad akan di-inject dari adssettings.html -->
+            <div class="side-ad-inner">
+                📢 Left Native Ad<br>
+                (1:4 Landscape Banner)<br>
+                Desktop Only
+            </div>
         </div>
 
-        <!-- Main Container -->
         <div class="container">
             <div class="logo">🔒</div>
             <h1>SafeLink Protection</h1>
-            <p class="subtitle">Your link is being prepared securely</p>
+            <p class="subtitle">Your link is protected for maximum security</p>
 
-            <!-- Top Ad Container -->
-            <div id="topAdContainer">
-                <!-- Ad akan di-inject dari adssettings.html -->
+            <div class="ad-space ad-desktop" id="adDesktop">
+                📢 Desktop Ad Space<br>(468x60 pixels)
             </div>
 
-            <div class="error" id="error">
-                ❌ Invalid or expired link. Please check your URL.
+            <div class="ad-space ad-mobile" id="adMobile">
+                📢 Mobile Ad Space<br>(320x50 pixels)
             </div>
 
             <div class="countdown-box" id="countdownBox">
-                <div class="countdown-label" id="countdownLabel">Please wait...</div>
-                <div class="countdown" id="countdown">5</div>
                 <div class="spinner" id="spinner"></div>
+                <div class="countdown-label" id="countdownLabel">Please wait</div>
+                <div class="countdown" id="countdown">5</div>
+                <div class="countdown-label">seconds</div>
                 <div class="progress-bar">
                     <div class="progress" id="progress"></div>
                 </div>
             </div>
 
-            <!-- Middle Ad Container -->
-            <div id="middleAdContainer">
-                <!-- Ad akan di-inject dari adssettings.html -->
+            <div class="ad-space ad-desktop" id="adDesktop2">
+                📢 Desktop Ad Space 2<br>(468x60 pixels)
+            </div>
+
+            <div class="ad-space ad-mobile" id="adMobile2">
+                📢 Mobile Ad Space 2<br>(320x50 pixels)
             </div>
 
             <div class="password-box" id="passwordBox">
-                <label class="password-label">🔐 This link is password protected</label>
-                <input type="password" 
-                       class="password-input" 
-                       id="passwordInput" 
-                       placeholder="Enter password to continue"
-                       onkeypress="if(event.key==='Enter') checkPassword()">
-                <button class="btn" onclick="checkPassword()" style="display: inline-block; margin-top: 10px;">
+                <label class="password-label">🔐 Enter Password to Access Link</label>
+                <input type="password" class="password-input" id="passwordInput" placeholder="Password" onkeypress="if(event.key==='Enter') checkPassword()">
+                <button class="btn" style="display: inline-block; width: 100%;" onclick="checkPassword()">
                     Verify Password
                 </button>
-                <div class="password-error" id="passwordError"></div>
+                <div class="password-error" id="passwordError">
+                    ❌ Incorrect password! Please try again.
+                </div>
             </div>
 
             <button class="btn" id="verifyBtn" onclick="verifyLink()">
-                🔍 Verify Link
+                ✅ Verify Link
             </button>
 
             <button class="btn" id="accessBtn" onclick="redirectToTarget()">
-                ✅ Access Link
+                🔓 Access Link Now
             </button>
 
-            <!-- Bottom Ad Container -->
-            <div id="bottomAdContainer">
-                <!-- Ad akan di-inject dari adssettings.html -->
+            <div class="error" id="error">
+                ❌ Invalid or expired link. Please check the URL and try again.
             </div>
 
             <div class="info">
-                🛡️ This link uses advanced encryption<br>
-                ⏱️ Please wait for the countdown to complete<br>
-                🔐 Your privacy is our priority
+                ⚠️ You will be redirected to the destination link in a few seconds.<br>
+                This link has been verified and is safe to access.
             </div>
         </div>
 
-        <!-- Right Side Ad -->
         <div class="side-ad" id="rightSideAd">
-            <!-- Ad akan di-inject dari adssettings.html -->
+            <div class="side-ad-inner">
+                📢 Right Native Ad<br>
+                (1:4 Landscape Banner)<br>
+                Desktop Only
+            </div>
         </div>
     </div>
 
-    <!-- LZ-String Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js" 
-            integrity="sha512-jEuom/CwXybXECuBxzEfuo33IHLS9uvktFvwBJJ9TO+teue1Eg6b/u2YQK0IlzBxtmJrEWGbfxZiVp0kNEqMKA==" 
-            crossorigin="anonymous" 
-            referrerpolicy="no-referrer"></script>
-
-    <!-- Load Ads Configuration -->
-    <script src="adssettings.html"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 
     <script>
-        // Password hashing function
+        // Security measures
+        (function() {
+            const noop = function() {};
+            const methods = ['log', 'warn', 'error', 'info', 'debug'];
+            methods.forEach(function(method) {
+                console[method] = noop;
+            });
+        })();
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
+                (e.ctrlKey && e.keyCode === 85)) {
+                e.preventDefault();
+            }
+        });
+
+        // NEW: SHA-256 Password Hashing for verification
         async function hashPassword(password) {
             if (!password) return null;
             
@@ -386,17 +409,18 @@
             return hashHex;
         }
 
-        // Decrypt URL function
+        // IMPROVED: Enhanced decryption with better error handling
         function decryptURL(encrypted) {
-            if (!encrypted) return null;
-            
             try {
-                // Try LZ-String decompression first
+                if (!encrypted) {
+                    throw new Error('No encrypted data provided');
+                }
+
+                // Try decompression first
                 const decompressed = LZString.decompressFromEncodedURIComponent(encrypted);
                 
                 if (decompressed) {
                     try {
-                        // Try to parse as JSON (new format with password)
                         const dataObject = JSON.parse(decompressed);
                         
                         // Validate decrypted data structure
@@ -426,7 +450,7 @@
             }
         }
 
-        // URL validation before redirect
+        // IMPROVED: URL validation before redirect
         function isValidURL(url) {
             if (!url || typeof url !== 'string') return false;
             
@@ -471,7 +495,7 @@
         let duration = countdown * 1000;
         let isVerified = false;
 
-        // Enhanced initialization with validation
+        // IMPROVED: Enhanced initialization with validation
         if (encryptedURL) {
             try {
                 const decryptedData = decryptURL(encryptedURL);
@@ -531,7 +555,7 @@
             }
         }
         
-        // Password verification with hashing
+        // IMPROVED: Password verification with hashing
         async function checkPassword() {
             const inputPassword = document.getElementById('passwordInput').value;
             const passwordInput = document.getElementById('passwordInput');
@@ -569,8 +593,7 @@
         function verifyLink() {
             if (isVerified) return;
             
-            // Menggunakan URL dari AdsConfig (loaded dari adssettings.html)
-            const verifyURL = window.AdsConfig ? window.AdsConfig.verificationURL : 'https://offensivefountainrabbit.com/a90dwxa6?key=702e03348d76e695e837465455e9e37b';
+            const verifyURL = 'https://offensivefountainrabbit.com/a90dwxa6?key=702e03348d76e695e837465455e9e37b';
             
             try {
                 const newWindow = window.open(verifyURL, '_blank', 'noopener,noreferrer');
@@ -589,7 +612,7 @@
             }
         }
 
-        // Secure redirect with validation
+        // IMPROVED: Secure redirect with validation
         function redirectToTarget() {
             if (!targetURL) {
                 alert('❌ No target URL available');
