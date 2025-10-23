@@ -13,308 +13,107 @@
     <meta property="og:site_name" content="SafeLink Protection">
     <title>SafeLink - Please Wait</title>
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <!-- Favicon from JSDelivr CDN -->
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/wahyustw/safelinkurl@main/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/wahyustw/safelinkurl@main/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/wahyustw/safelinkurl@main/favicon.png">
     
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .main-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            width: 100%;
-            max-width: 1400px;
-        }
-
-        .side-ad {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-width: 300px;
-            max-width: 300px;
-        }
-
-        .side-ad-inner {
-            background: white;
-            border: 2px dashed #ddd;
-            border-radius: 15px;
-            padding: 20px;
-            width: 100%;
-            min-height: 600px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        @media (min-width: 1200px) {
-            .side-ad {
-                display: flex;
-            }
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 500px;
-            width: 100%;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .logo {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        .countdown-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-        }
-
-        .countdown {
-            font-size: 72px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .countdown-label {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-
-        .progress {
-            height: 100%;
-            background: white;
-            border-radius: 10px;
-            transition: width 0.1s linear;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: none;
-            margin: 20px auto;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .password-box {
-            display: none;
-            margin: 20px 0;
-            padding: 20px;
-            background: #fff9e6;
-            border-radius: 10px;
-            border-left: 4px solid #ffc107;
-        }
-        
-        .password-box.show {
-            display: block;
-        }
-        
-        .password-label {
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 14px;
-            display: block;
-        }
-        
-        .password-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-        
-        .password-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .password-error {
-            color: #c33;
-            font-size: 13px;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        .password-error.show {
-            display: block;
-        }
-
-        .info {
-            color: #666;
-            font-size: 13px;
-            margin-top: 20px;
-            line-height: 1.6;
-        }
-
-        .ad-space {
-            background: #f5f5f5;
-            border: 2px dashed #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px auto;
-            color: #999;
-            font-size: 14px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100px;
-            flex-direction: column;
-        }
-        
-        .ad-desktop {
-            width: 100%;
-            max-width: 468px;
-            min-height: 80px;
-            display: none;
-        }
-        
-        .ad-mobile {
-            width: 100%;
-            max-width: 320px;
-            min-height: 70px;
-            display: none;
-        }
-        
-        @media (min-width: 769px) {
-            .ad-desktop {
-                display: flex;
-            }
-            .ad-mobile {
-                display: none !important;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .ad-desktop {
-                display: none !important;
-            }
-            .ad-mobile {
-                display: flex;
-            }
-        }
-
-        .spinner {
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error {
-            background: #fee;
-            color: #c33;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            display: none;
-            font-size: 14px;
-        }
-
-        .site-type {
-            display: none;
-        }
-    </style>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/wahyustw/safelinkurl@main/assets/css/safelink.css?v=1.0.0" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js" as="script">
+    
+    <!-- Stylesheet from JSDelivr CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wahyustw/safelinkurl@main/assets/css/safelink.css?v=1.0.0">
 </head>
 <body data-site-type="safelink" data-service="url-shortener">
+    <!-- Site Type Identifier for Ad Networks -->
     <div class="site-type" id="siteType" data-category="link-shortener" data-service="url-encryption">
         SafeLink URL Shortener & Encryption Service
     </div>
 
     <div class="main-wrapper">
+        <!-- Left Side Ad (Native Banner 1:4 - Desktop Only) -->
         <div class="side-ad" id="leftSideAd">
             <div class="side-ad-inner">
+                <!-- ============================================ -->
+                <!-- PASTE NATIVE BANNER AD CODE HERE (LEFT)     -->
+                <!-- Format: 1:4 Landscape / Vertical Native     -->
+                <!-- Desktop Only (min-width: 1200px)            -->
+                <!-- ============================================ -->
+                
                 📢 Left Native Ad<br>
                 (1:4 Landscape Banner)<br>
                 Desktop Only
+                
+                <!-- Example Native Ad Code:
+                <script async="async" data-cfasync="false" src="//offensivefountainrabbit.com/20705ee71de242ef97180bbb3619145d/invoke.js"></script>
+                <div id="container-20705ee71de242ef97180bbb3619145d"></div>
+                -->
+                
+                <!-- ============================================ -->
+                <!-- END LEFT NATIVE AD CODE                     -->
+                <!-- ============================================ -->
             </div>
         </div>
 
+        <!-- Main Content -->
         <div class="container">
             <div class="logo">🔒</div>
             <h1>SafeLink Protection</h1>
             <p class="subtitle">Your link is protected for maximum security</p>
 
+            <!-- Ad Space Desktop (468x60) - Desktop Only - POSITION 1 -->
             <div class="ad-space ad-desktop" id="adDesktop">
+                <!-- ============================================ -->
+                <!-- PASTE ADSTERRA DESKTOP AD CODE HERE         -->
+                <!-- Size: 468x60 pixels                         -->
+                <!-- ============================================ -->
+                
                 📢 Desktop Ad Space<br>(468x60 pixels)
+                
+                <!-- Example Adsterra Desktop Code:
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'YOUR_KEY_HERE',
+                        'format' : 'iframe',
+                        'height' : 60,
+                        'width' : 468,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
+                -->
+                
+                <!-- ============================================ -->
+                <!-- END DESKTOP AD CODE                         -->
+                <!-- ============================================ -->
             </div>
 
+            <!-- Ad Space Mobile (320x50) - Mobile Only - POSITION 1 -->
             <div class="ad-space ad-mobile" id="adMobile">
+                <!-- ============================================ -->
+                <!-- PASTE ADSTERRA MOBILE AD CODE HERE          -->
+                <!-- Size: 320x50 pixels                         -->
+                <!-- ============================================ -->
+                
                 📢 Mobile Ad Space<br>(320x50 pixels)
+                
+                <!-- Example Adsterra Mobile Code:
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'YOUR_KEY_HERE',
+                        'format' : 'iframe',
+                        'height' : 50,
+                        'width' : 320,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
+                -->
+                
+                <!-- ============================================ -->
+                <!-- END MOBILE AD CODE                          -->
+                <!-- ============================================ -->
             </div>
 
             <div class="countdown-box" id="countdownBox">
@@ -327,12 +126,58 @@
                 </div>
             </div>
 
+            <!-- Ad Space Desktop (468x60) - Desktop Only - POSITION 2 -->
             <div class="ad-space ad-desktop" id="adDesktop2">
+                <!-- ============================================ -->
+                <!-- PASTE ADSTERRA DESKTOP AD CODE HERE         -->
+                <!-- Size: 468x60 pixels                         -->
+                <!-- ============================================ -->
+                
                 📢 Desktop Ad Space 2<br>(468x60 pixels)
+                
+                <!-- Example Adsterra Desktop Code:
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'YOUR_KEY_HERE',
+                        'format' : 'iframe',
+                        'height' : 60,
+                        'width' : 468,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
+                -->
+                
+                <!-- ============================================ -->
+                <!-- END DESKTOP AD CODE                         -->
+                <!-- ============================================ -->
             </div>
 
+            <!-- Ad Space Mobile (320x50) - Mobile Only - POSITION 2 -->
             <div class="ad-space ad-mobile" id="adMobile2">
+                <!-- ============================================ -->
+                <!-- PASTE ADSTERRA MOBILE AD CODE HERE          -->
+                <!-- Size: 320x50 pixels                         -->
+                <!-- ============================================ -->
+                
                 📢 Mobile Ad Space 2<br>(320x50 pixels)
+                
+                <!-- Example Adsterra Mobile Code:
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'YOUR_KEY_HERE',
+                        'format' : 'iframe',
+                        'height' : 50,
+                        'width' : 320,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//domain.com/YOUR_KEY/invoke.js"></script>
+                -->
+                
+                <!-- ============================================ -->
+                <!-- END MOBILE AD CODE                          -->
+                <!-- ============================================ -->
             </div>
 
             <div class="password-box" id="passwordBox">
@@ -363,309 +208,38 @@
                 This link has been verified and is safe to access.
             </div>
         </div>
+        <!-- End Main Content -->
 
+        <!-- Right Side Ad (Native Banner 1:4 - Desktop Only) -->
         <div class="side-ad" id="rightSideAd">
             <div class="side-ad-inner">
+                <!-- ============================================ -->
+                <!-- PASTE NATIVE BANNER AD CODE HERE (RIGHT)    -->
+                <!-- Format: 1:4 Landscape / Vertical Native     -->
+                <!-- Desktop Only (min-width: 1200px)            -->
+                <!-- ============================================ -->
+                
                 📢 Right Native Ad<br>
                 (1:4 Landscape Banner)<br>
                 Desktop Only
+                
+                <!-- Example Native Ad Code:
+                <script async="async" data-cfasync="false" src="//offensivefountainrabbit.com/20705ee71de242ef97180bbb3619145d/invoke.js"></script>
+                <div id="container-20705ee71de242ef97180bbb3619145d"></div>
+                -->
+                
+                <!-- ============================================ -->
+                <!-- END RIGHT NATIVE AD CODE                    -->
+                <!-- ============================================ -->
             </div>
         </div>
     </div>
+    <!-- End Main Wrapper -->
 
+    <!-- LZString Library for Decompression -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
-
-    <script>
-        // Security measures
-        (function() {
-            const noop = function() {};
-            const methods = ['log', 'warn', 'error', 'info', 'debug'];
-            methods.forEach(function(method) {
-                console[method] = noop;
-            });
-        })();
-
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.keyCode === 123 || 
-                (e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
-                (e.ctrlKey && e.keyCode === 85)) {
-                e.preventDefault();
-            }
-        });
-
-        // NEW: SHA-256 Password Hashing for verification
-        async function hashPassword(password) {
-            if (!password) return null;
-            
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            return hashHex;
-        }
-
-        // IMPROVED: Enhanced decryption with better error handling
-        function decryptURL(encrypted) {
-            try {
-                if (!encrypted) {
-                    throw new Error('No encrypted data provided');
-                }
-
-                // Try decompression first
-                const decompressed = LZString.decompressFromEncodedURIComponent(encrypted);
-                
-                if (decompressed) {
-                    try {
-                        const dataObject = JSON.parse(decompressed);
-                        
-                        // Validate decrypted data structure
-                        if (!dataObject.url) {
-                            throw new Error('Invalid data structure');
-                        }
-                        
-                        return dataObject;
-                    } catch(e) {
-                        // Not JSON, treat as plain URL (old format)
-                        return { url: decompressed, pwd: null };
-                    }
-                }
-                
-                // Fallback to Base64 (backward compatibility)
-                const base64Decoded = atob(encrypted);
-                
-                // Validate decoded URL
-                if (!base64Decoded || base64Decoded.length < 10) {
-                    throw new Error('Invalid decoded data');
-                }
-                
-                return { url: base64Decoded, pwd: null };
-            } catch (e) {
-                console.error('Decryption error:', e);
-                return null;
-            }
-        }
-
-        // IMPROVED: URL validation before redirect
-        function isValidURL(url) {
-            if (!url || typeof url !== 'string') return false;
-            
-            try {
-                const urlObj = new URL(url);
-                
-                // Must have http or https protocol
-                if (!['http:', 'https:'].includes(urlObj.protocol)) {
-                    return false;
-                }
-                
-                // Must have a hostname
-                if (!urlObj.hostname || urlObj.hostname.length < 3) {
-                    return false;
-                }
-                
-                // Must have a TLD
-                if (!urlObj.hostname.includes('.')) {
-                    return false;
-                }
-                
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const encryptedURL = urlParams.get('url') || 
-                            urlParams.get('go') || 
-                            urlParams.get('link') || 
-                            urlParams.get('to') || 
-                            urlParams.get('redirect') ||
-                            urlParams.get('s') ||
-                            urlParams.get('d');
-        
-        let targetURL = null;
-        let requiredPassword = null;
-        let countdown = 5;
-        let startTime = Date.now();
-        let duration = countdown * 1000;
-        let isVerified = false;
-
-        // IMPROVED: Enhanced initialization with validation
-        if (encryptedURL) {
-            try {
-                const decryptedData = decryptURL(encryptedURL);
-                
-                if (decryptedData && decryptedData.url) {
-                    // Validate the decrypted URL
-                    if (isValidURL(decryptedData.url)) {
-                        targetURL = decryptedData.url;
-                        requiredPassword = decryptedData.pwd;
-                    } else {
-                        throw new Error('Invalid target URL format');
-                    }
-                } else {
-                    throw new Error('Failed to decrypt URL');
-                }
-            } catch (error) {
-                console.error('Initialization error:', error);
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('countdownBox').style.display = 'none';
-            }
-        } else {
-            document.getElementById('error').textContent = '❌ No encrypted URL provided. Please check your link.';
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('countdownBox').style.display = 'none';
-        }
-
-        // Countdown function
-        function updateCountdown() {
-            if (!targetURL) return;
-
-            const elapsed = Date.now() - startTime;
-            const remaining = Math.max(0, duration - elapsed);
-            const seconds = Math.ceil(remaining / 1000);
-            
-            document.getElementById('countdown').textContent = seconds;
-            
-            const progress = ((duration - remaining) / duration) * 100;
-            document.getElementById('progress').style.width = progress + '%';
-            
-            if (remaining <= 0) {
-                showButton();
-            } else {
-                requestAnimationFrame(updateCountdown);
-            }
-        }
-
-        function showButton() {
-            document.getElementById('spinner').style.display = 'none';
-            document.getElementById('countdownLabel').textContent = 'Link ready to access!';
-            document.getElementById('countdown').textContent = '✓';
-            
-            if (requiredPassword) {
-                document.getElementById('passwordBox').classList.add('show');
-                document.getElementById('passwordInput').focus();
-            } else {
-                document.getElementById('verifyBtn').style.display = 'inline-block';
-            }
-        }
-        
-        // IMPROVED: Password verification with hashing
-        async function checkPassword() {
-            const inputPassword = document.getElementById('passwordInput').value;
-            const passwordInput = document.getElementById('passwordInput');
-            const errorMsg = document.getElementById('passwordError');
-            
-            if (!inputPassword) {
-                errorMsg.textContent = '⚠️ Please enter a password';
-                errorMsg.classList.add('show');
-                passwordInput.focus();
-                return;
-            }
-
-            try {
-                // Hash the input password
-                const hashedInput = await hashPassword(inputPassword);
-                
-                // Compare hashed passwords
-                if (hashedInput === requiredPassword) {
-                    errorMsg.classList.remove('show');
-                    document.getElementById('passwordBox').style.display = 'none';
-                    document.getElementById('verifyBtn').style.display = 'inline-block';
-                } else {
-                    errorMsg.textContent = '❌ Incorrect password! Please try again.';
-                    errorMsg.classList.add('show');
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                }
-            } catch (error) {
-                errorMsg.textContent = '❌ Error verifying password. Please try again.';
-                errorMsg.classList.add('show');
-                console.error('Password verification error:', error);
-            }
-        }
-
-        function verifyLink() {
-            if (isVerified) return;
-            
-            const verifyURL = 'https://offensivefountainrabbit.com/a90dwxa6?key=702e03348d76e695e837465455e9e37b';
-            
-            try {
-                const newWindow = window.open(verifyURL, '_blank', 'noopener,noreferrer');
-                
-                if (newWindow) {
-                    newWindow.opener = null;
-                }
-                
-                isVerified = true;
-                
-                document.getElementById('verifyBtn').style.display = 'none';
-                document.getElementById('accessBtn').style.display = 'inline-block';
-            } catch (error) {
-                alert('❌ Unable to open verification window. Please allow pop-ups for this site.');
-                console.error('Verification error:', error);
-            }
-        }
-
-        // IMPROVED: Secure redirect with validation
-        function redirectToTarget() {
-            if (!targetURL) {
-                alert('❌ No target URL available');
-                return;
-            }
-
-            if (!isVerified) {
-                alert('⚠️ Please verify the link first by clicking "Verify Link" button');
-                return;
-            }
-
-            // Final validation before redirect
-            if (!isValidURL(targetURL)) {
-                alert('❌ Invalid target URL. Cannot redirect.');
-                return;
-            }
-
-            try {
-                // Secure redirect
-                const a = document.createElement('a');
-                a.href = targetURL;
-                a.rel = 'noopener noreferrer';
-                a.target = '_self';
-                
-                if (document.referrer) {
-                    window.location.replace(targetURL);
-                } else {
-                    window.location.href = targetURL;
-                }
-            } catch (error) {
-                alert('❌ Error redirecting to target URL: ' + error.message);
-                console.error('Redirect error:', error);
-            }
-        }
-
-        // Start countdown
-        if (targetURL) {
-            updateCountdown();
-        }
-
-        // Security: History management
-        window.addEventListener('beforeunload', function() {
-            if (window.history && window.history.pushState) {
-                window.history.pushState(null, '', window.location.href);
-            }
-        });
-
-        if (window.history && window.history.pushState) {
-            window.history.pushState(null, '', window.location.href);
-            window.addEventListener('popstate', function() {
-                window.history.pushState(null, '', window.location.href);
-            });
-        }
-    </script>
+    
+    <!-- Main JavaScript from JSDelivr CDN -->
+    <script src="https://cdn.jsdelivr.net/gh/wahyustw/safelinkurl@main/assets/js/safelink.js?v=1.0.0"></script>
 </body>
 </html>
