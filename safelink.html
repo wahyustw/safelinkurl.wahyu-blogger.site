@@ -384,7 +384,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .video-frame-container iframe {
+        .video-frame-container video {
             position: absolute;
             top: 0;
             left: 0;
@@ -392,6 +392,7 @@
             height: 100%;
             border: none;
             border-radius: 8px;
+            object-fit: cover;
         }
 
         .video-watch-btn {
@@ -843,17 +844,18 @@
         }
 
         // ============================================
-        // 🎬 VIDEO POPUP WITH PIXELDRAIN AUTOPLAY
+        // 🎬 VIDEO POPUP WITH GITHUB VIDEO AUTOPLAY
         // ============================================
         
         // Video Popup Controls
         function closeVideoPopup() {
             const popup = document.getElementById('videoPopup');
-            const videoFrame = document.getElementById('promoVideoFrame');
+            const video = document.getElementById('promoVideo');
             
             // Stop video when closing
-            if (videoFrame) {
-                videoFrame.src = '';
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
             }
             
             popup.classList.add('closing');
@@ -872,41 +874,48 @@
             }
         }
 
-        // Auto-show and Auto-play Video Popup with Pixeldrain
+        // Auto-show and Auto-play Video Popup with GitHub Video
         (function initVideoPopup() {
             // Wait for page to fully load
             window.addEventListener('load', function() {
                 const videoPopup = document.getElementById('videoPopup');
-                const videoFrame = document.getElementById('promoVideoFrame');
+                const video = document.getElementById('promoVideo');
                 
                 // Show popup immediately
                 if (videoPopup) {
                     videoPopup.style.display = 'block';
                 }
                 
-                // Load Pixeldrain video with autoplay after short delay
-                if (videoFrame) {
+                // Load and play GitHub video after short delay
+                if (video) {
                     setTimeout(function() {
-                        // Pixeldrain embed URL with autoplay parameter
-                        const videoSrc = 'https://pixeldrain.com/u/ahV2zuQj?embed&autoplay=true';
-                        videoFrame.src = videoSrc;
-                    }, 300);
+                        // Set GitHub raw video URL
+                        video.src = 'https://raw.githubusercontent.com/wahyustw/safelinkurl.wahyu-blogger.site/main/Clip1.mp4';
+                        
+                        // Attempt to play video
+                        video.play().catch(function(error) {
+                            console.log('Autoplay was prevented:', error);
+                            // If autoplay fails, user can manually click play
+                        });
+                    }, 500);
                 }
             });
         })();
 
         // Optional: Trigger video interaction on user first click (if autoplay blocked by browser)
         document.addEventListener('click', function enableVideoAutoplay() {
-            const videoFrame = document.getElementById('promoVideoFrame');
-            if (videoFrame && !videoFrame.src) {
-                videoFrame.src = 'https://pixeldrain.com/u/ahV2zuQj?embed&autoplay=true';
+            const video = document.getElementById('promoVideo');
+            if (video && video.paused) {
+                video.play().catch(function(error) {
+                    console.log('Manual play failed:', error);
+                });
             }
             // Remove listener after first click
             document.removeEventListener('click', enableVideoAutoplay);
         }, { once: true });
     </script>
 
-    <!-- Video Popup with Pixeldrain (autoplay) -->
+    <!-- Video Popup with GitHub Video (autoplay) -->
     <div class="video-popup" id="videoPopup">
         <div class="video-popup-header">
             <div class="video-popup-title">Video Promo</div>
@@ -914,14 +923,17 @@
         </div>
         <div class="video-popup-body">
             <div class="video-frame-container">
-                <iframe 
-                    id="promoVideoFrame"
-                    src=""
-                    allowfullscreen
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    loading="eager"
-                    frameborder="0">
-                </iframe>
+                <video 
+                    id="promoVideo"
+                    autoplay
+                    muted
+                    loop
+                    controls
+                    preload="metadata"
+                    playsinline>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
             <button class="video-watch-btn" onclick="watchVideo()">Tonton Video</button>
         </div>
