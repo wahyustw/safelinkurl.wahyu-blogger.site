@@ -841,9 +841,20 @@
             });
         }
 
-        // Video Popup Controls
+        // ============================================
+        // 🎬 VIDEO POPUP WITH AUTOPLAY - MODIFIED
+        // ============================================
+        
+        // Video Popup Controls with Autoplay
         function closeVideoPopup() {
             const popup = document.getElementById('videoPopup');
+            const videoFrame = document.getElementById('promoVideoFrame');
+            
+            // Stop video when closing
+            if (videoFrame) {
+                videoFrame.src = '';
+            }
+            
             popup.classList.add('closing');
             setTimeout(() => {
                 popup.style.display = 'none';
@@ -857,9 +868,32 @@
                 newWindow.opener = null;
             }
         }
+
+        // Auto-show and Auto-play Video Popup
+        (function initVideoPopup() {
+            // Tunggu halaman fully loaded
+            window.addEventListener('load', function() {
+                const videoPopup = document.getElementById('videoPopup');
+                const videoFrame = document.getElementById('promoVideoFrame');
+                
+                // Pastikan popup langsung terlihat
+                if (videoPopup) {
+                    videoPopup.style.display = 'block';
+                }
+                
+                // Auto-play video dengan delay 500ms untuk memastikan iframe ready
+                if (videoFrame) {
+                    setTimeout(function() {
+                        // Set src dengan parameter autoplay
+                        const videoSrc = 'https://dsvplay.com/e/lt6mxjntqoeb';
+                        videoFrame.src = videoSrc + '?autoplay=1&auto=1';
+                    }, 500);
+                }
+            });
+        })();
     </script>
 
-    <!-- Video Popup -->
+    <!-- Video Popup with Autoplay -->
     <div class="video-popup" id="videoPopup">
         <div class="video-popup-header">
             <div class="video-popup-title">Video Promo</div>
@@ -868,10 +902,12 @@
         <div class="video-popup-body">
             <div class="video-frame-container">
                 <iframe 
-                    src="https://dsvplay.com/e/lt6mxjntqoeb" 
+                    id="promoVideoFrame"
+                    src=""
                     allowfullscreen
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    loading="lazy">
+                    loading="eager"
+                    frameborder="0">
                 </iframe>
             </div>
             <button class="video-watch-btn" onclick="watchVideo()">Tonton Video</button>
