@@ -289,7 +289,7 @@
             display: none;
         }
 
-        /* Video Popup Styles */
+        /* Video Popup Styles - IMPROVED VERSION */
         .video-popup {
             position: fixed;
             bottom: 20px;
@@ -374,25 +374,42 @@
             padding: 15px;
         }
 
+        /* IMPROVED: Flexible Video Container */
         .video-frame-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             background: #000;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            /* Remove fixed aspect ratio */
+            min-height: 200px;
+            max-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .video-frame-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
+            height: auto;
+            max-height: 300px;
             border: none;
             border-radius: 8px;
-            object-fit: cover;
+            /* CHANGED: Use contain instead of cover to show full video */
+            object-fit: contain;
+            background: #000;
+        }
+
+        /* For portrait videos specifically */
+        .video-frame-container.portrait {
+            max-height: 400px;
+        }
+
+        .video-frame-container.portrait video {
+            max-height: 400px;
+            width: auto;
+            max-width: 100%;
         }
 
         .video-watch-btn {
@@ -452,6 +469,15 @@
             .video-watch-btn {
                 padding: 12px 16px;
                 font-size: 14px;
+            }
+
+            .video-frame-container {
+                min-height: 150px;
+                max-height: 250px;
+            }
+
+            .video-frame-container.portrait {
+                max-height: 300px;
             }
         }
 
@@ -844,7 +870,7 @@
         }
 
         // ============================================
-        // 🎬 VIDEO POPUP WITH GITHUB VIDEO AUTOPLAY
+        // 🎬 VIDEO POPUP WITH GITHUB VIDEO AUTOPLAY - IMPROVED VERSION
         // ============================================
         
         // Video Popup Controls
@@ -874,6 +900,23 @@
             }
         }
 
+        // AUTO-DETECT video orientation and adjust container
+        function detectVideoOrientation(video) {
+            video.addEventListener('loadedmetadata', function() {
+                const container = document.querySelector('.video-frame-container');
+                const aspectRatio = video.videoWidth / video.videoHeight;
+                
+                // If video is portrait (height > width)
+                if (aspectRatio < 1) {
+                    container.classList.add('portrait');
+                    console.log('Portrait video detected - container adjusted');
+                } else {
+                    container.classList.remove('portrait');
+                    console.log('Landscape video detected');
+                }
+            });
+        }
+
         // Auto-show and Auto-play Video Popup with GitHub Video
         (function initVideoPopup() {
             // Wait for page to fully load
@@ -888,6 +931,9 @@
                 
                 // Load and play GitHub video after short delay
                 if (video) {
+                    // Detect video orientation when metadata loads
+                    detectVideoOrientation(video);
+                    
                     setTimeout(function() {
                         // Set GitHub raw video URL
                         video.src = 'https://raw.githubusercontent.com/wahyustw/safelinkurl.wahyu-blogger.site/main/Clip1.mp4';
@@ -915,14 +961,14 @@
         }, { once: true });
     </script>
 
-    <!-- Video Popup with GitHub Video (autoplay) -->
+    <!-- Video Popup with GitHub Video (autoplay) - IMPROVED VERSION -->
     <div class="video-popup" id="videoPopup">
         <div class="video-popup-header">
             <div class="video-popup-title">Video Promo</div>
             <button class="video-close-btn" onclick="closeVideoPopup()" title="Close">×</button>
         </div>
         <div class="video-popup-body">
-            <div class="video-frame-container">
+            <div class="video-frame-container" id="videoContainer">
                 <video 
                     id="promoVideo"
                     autoplay
