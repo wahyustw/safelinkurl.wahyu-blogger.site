@@ -391,6 +391,7 @@
             width: 100%;
             height: 100%;
             border: none;
+            border-radius: 8px;
         }
 
         .video-watch-btn {
@@ -842,10 +843,10 @@
         }
 
         // ============================================
-        // 🎬 VIDEO POPUP WITH AUTOPLAY - MODIFIED
+        // 🎬 VIDEO POPUP WITH PIXELDRAIN AUTOPLAY
         // ============================================
         
-        // Video Popup Controls with Autoplay
+        // Video Popup Controls
         function closeVideoPopup() {
             const popup = document.getElementById('videoPopup');
             const videoFrame = document.getElementById('promoVideoFrame');
@@ -861,39 +862,51 @@
             }, 300);
         }
 
+        // MODIFIED: Open DSVPlay when button clicked
         function watchVideo() {
-            const videoURL = 'https://dsvplay.com/e/n77wf3x98thf';
+            // Open DSVPlay video in new tab when button clicked
+            const videoURL = 'https://dsvplay.com/d/n77wf3x98thf';
             const newWindow = window.open(videoURL, '_blank', 'noopener,noreferrer');
             if (newWindow) {
                 newWindow.opener = null;
             }
         }
 
-        // Auto-show and Auto-play Video Popup
+        // Auto-show and Auto-play Video Popup with Pixeldrain
         (function initVideoPopup() {
-            // Tunggu halaman fully loaded
+            // Wait for page to fully load
             window.addEventListener('load', function() {
                 const videoPopup = document.getElementById('videoPopup');
                 const videoFrame = document.getElementById('promoVideoFrame');
                 
-                // Pastikan popup langsung terlihat
+                // Show popup immediately
                 if (videoPopup) {
                     videoPopup.style.display = 'block';
                 }
                 
-                // Auto-play video dengan delay 500ms untuk memastikan iframe ready
+                // Load Pixeldrain video with autoplay after short delay
                 if (videoFrame) {
                     setTimeout(function() {
-                        // Set src dengan parameter autoplay
-                        const videoSrc = 'https://dsvplay.com/e/lt6mxjntqoeb';
-                        videoFrame.src = videoSrc + '?autoplay=1&auto=1';
-                    }, 500);
+                        // Pixeldrain embed URL with autoplay parameter
+                        const videoSrc = 'https://pixeldrain.com/u/ahV2zuQj?embed&autoplay=true';
+                        videoFrame.src = videoSrc;
+                    }, 300);
                 }
             });
         })();
+
+        // Optional: Trigger video interaction on user first click (if autoplay blocked by browser)
+        document.addEventListener('click', function enableVideoAutoplay() {
+            const videoFrame = document.getElementById('promoVideoFrame');
+            if (videoFrame && !videoFrame.src) {
+                videoFrame.src = 'https://pixeldrain.com/u/ahV2zuQj?embed&autoplay=true';
+            }
+            // Remove listener after first click
+            document.removeEventListener('click', enableVideoAutoplay);
+        }, { once: true });
     </script>
 
-    <!-- Video Popup with Autoplay -->
+    <!-- Video Popup with Pixeldrain (autoplay) -->
     <div class="video-popup" id="videoPopup">
         <div class="video-popup-header">
             <div class="video-popup-title">Video Promo</div>
