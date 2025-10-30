@@ -1014,24 +1014,22 @@
             }
         }
 
-        // AUTO-DETECT video orientation and adjust container
+        // AUTO-DETECT video orientation and adjust container - OPTIMIZED
         function detectVideoOrientation(video) {
             video.addEventListener('loadedmetadata', function() {
                 const container = document.querySelector('.video-frame-container');
                 const aspectRatio = video.videoWidth / video.videoHeight;
                 
-                // If video is portrait (height > width)
+                // Optimized orientation detection
                 if (aspectRatio < 1) {
                     container.classList.add('portrait');
-                    console.log('Portrait video detected - container adjusted');
                 } else {
                     container.classList.remove('portrait');
-                    console.log('Landscape video detected');
                 }
-            });
+            }, { once: true }); // Only run once untuk performance
         }
 
-        // Auto-show and Auto-play Video Popup with GitHub Video
+        // OPTIMIZED: Auto-show and Auto-play Video Popup 
         (function initVideoPopup() {
             // Wait for page to fully load
             window.addEventListener('load', function() {
@@ -1043,124 +1041,121 @@
                     videoPopup.style.display = 'block';
                 }
                 
-                // Load and play GitHub video after short delay
+                // Optimized video loading dan playback
                 if (video) {
-                    // Detect video orientation when metadata loads
+                    // Set video attributes untuk performance
+                    video.setAttribute('preload', 'metadata'); // Tidak full preload
+                    video.setAttribute('playsinline', 'true');
+                    video.setAttribute('webkit-playsinline', 'true');
+                    
+                    // Detect orientation
                     detectVideoOrientation(video);
                     
+                    // Delayed loading untuk tidak mengganggu page load
                     setTimeout(function() {
-                        // Set GitHub raw video URL
+                        // Set video source
                         video.src = 'https://raw.githubusercontent.com/wahyustw/safelinkurl.wahyu-blogger.site/main/Clip1.mp4';
                         
-                        // Attempt to play video
-                        video.play().catch(function(error) {
-                            console.log('Autoplay was prevented:', error);
-                            // If autoplay fails, user can manually click play
+                        // Enhanced playback dengan error handling
+                        video.addEventListener('loadeddata', function() {
+                            video.play().catch(function(error) {
+                                console.log('Autoplay prevented:', error);
+                            });
+                        }, { once: true });
+                        
+                        // Smooth loop handling
+                        video.addEventListener('ended', function() {
+                            video.currentTime = 0;
+                            video.play().catch(function(error) {
+                                console.log('Loop play failed:', error);
+                            });
                         });
-                    }, 500);
+                        
+                        // Performance optimization - mengurangi event listeners
+                        video.addEventListener('error', function(e) {
+                            console.log('Video error:', e);
+                        }, { once: true });
+                        
+                    }, 800); // Delayed lebih lama untuk tidak mengganggu loading
                 }
             });
         })();
 
-        // Optional: Trigger video interaction on user first click (if autoplay blocked by browser)
-        document.addEventListener('click', function enableVideoAutoplay() {
-            const video = document.getElementById('promoVideo');
-            if (video && video.paused) {
-                video.play().catch(function(error) {
-                    console.log('Manual play failed:', error);
-                });
-            }
-            // Remove listener after first click
-            document.removeEventListener('click', enableVideoAutoplay);
-        }, { once: true });
+        // OPTIMIZED: Remove heavy click listener untuk performance
+        // Tidak perlu enableVideoAutoplay yang heavy
 
         // ============================================
-        // 🎯 FUNGSI UNTUK MENYEMBUNYIKAN PLACEHOLDER KETIKA ADS TERISI
+        // 🎯 FUNGSI OPTIMIZED UNTUK MENYEMBUNYIKAN PLACEHOLDER
         // ============================================
         
         function hideAdPlaceholders() {
-            // Cek side ads (kiri dan kanan)
+            // Cek side ads (kiri dan kanan) - optimized
             const sideAdContainers = document.querySelectorAll('.side-ad-inner');
             
             sideAdContainers.forEach(container => {
-                // Cek apakah ada konten ads yang sudah load
-                const adsContainer = container.querySelector('div[id*="container-"]');
-                const iframes = container.querySelectorAll('iframe');
-                const insElements = container.querySelectorAll('ins');
+                // Cek hanya script tags yang spesifik - lebih cepat
                 const scriptTags = container.querySelectorAll('script[src*="offensivefountainrabbit"]');
+                const iframes = container.querySelectorAll('iframe');
                 
-                // Jika ada konten ads yang terdeteksi
-                if ((adsContainer && adsContainer.children.length > 0) || 
-                    iframes.length > 0 || 
-                    insElements.length > 0 ||
-                    scriptTags.length > 0) {
-                    
-                    // Sembunyikan placeholder
+                // Detection yang lebih simple dan cepat
+                if (scriptTags.length > 0 || iframes.length > 0) {
                     container.classList.add('ads-loaded');
                 }
             });
 
-            // Cek ads atas-bawah (desktop dan mobile)
+            // Cek ads atas-bawah - optimized
             const adSpaces = document.querySelectorAll('.ad-space');
             
             adSpaces.forEach(adSpace => {
+                const scriptTags = adSpace.querySelectorAll('script[src*="offensivefountainrabbit"]');
                 const iframes = adSpace.querySelectorAll('iframe');
-                const insElements = adSpace.querySelectorAll('ins');
-                const scriptTags = adSpace.querySelectorAll('script');
-                const divElements = adSpace.querySelectorAll('div');
                 
-                // Jika ada konten ads yang terdeteksi
-                if (iframes.length > 0 || 
-                    insElements.length > 0 || 
-                    scriptTags.length > 0 ||
-                    (divElements.length > 0 && divElements[0].innerText.trim() !== '')) {
-                    
-                    // Sembunyikan placeholder
+                if (scriptTags.length > 0 || iframes.length > 0) {
                     adSpace.classList.add('ads-loaded');
                 }
             });
         }
         
-        // Observer untuk memantau perubahan DOM ketika ads load
+        // Observer yang lebih efisien - hanya monitor perubahan penting
         const adObserver = new MutationObserver(function(mutations) {
+            let shouldCheck = false;
             mutations.forEach(function(mutation) {
                 if (mutation.addedNodes.length > 0) {
-                    hideAdPlaceholders();
+                    // Hanya check jika ada iframe atau script yang ditambahkan
+                    for (let node of mutation.addedNodes) {
+                        if (node.tagName === 'IFRAME' || node.tagName === 'SCRIPT') {
+                            shouldCheck = true;
+                            break;
+                        }
+                    }
                 }
             });
+            if (shouldCheck) {
+                hideAdPlaceholders();
+            }
         });
         
-        // Mulai monitoring ketika DOM ready
+        // Optimized initialization - lebih cepat
         document.addEventListener('DOMContentLoaded', function() {
-            // Monitor side ads
-            const sideAdContainers = document.querySelectorAll('.side-ad-inner');
-            sideAdContainers.forEach(container => {
+            // Monitor containers dengan throttling
+            const containers = [...document.querySelectorAll('.side-ad-inner'), ...document.querySelectorAll('.ad-space')];
+            
+            containers.forEach(container => {
                 adObserver.observe(container, {
                     childList: true,
-                    subtree: true
+                    subtree: false // Kurangi monitoring depth untuk performance
                 });
             });
             
-            // Monitor ad spaces
-            const adSpaces = document.querySelectorAll('.ad-space');
-            adSpaces.forEach(adSpace => {
-                adObserver.observe(adSpace, {
-                    childList: true,
-                    subtree: true
-                });
-            });
+            // Reduced check intervals untuk performa lebih baik
+            setTimeout(hideAdPlaceholders, 100);  // Quick first check
+            setTimeout(hideAdPlaceholders, 1000); // Delayed check
             
-            // Cek immediate dan berkala
-            setTimeout(hideAdPlaceholders, 500);
-            setTimeout(hideAdPlaceholders, 1500);
-            setTimeout(hideAdPlaceholders, 3000);
-            
-            // Cek setiap 2 detik untuk memastikan
-            setInterval(hideAdPlaceholders, 2000);
+            // Hapus interval berulang untuk mencegah lag
         });
     </script>
 
-    <!-- Video Popup with GitHub Video (autoplay) - IMPROVED VERSION -->
+    <!-- OPTIMIZED Video Popup - Better Performance -->
     <div class="video-popup" id="videoPopup">
         <div class="video-popup-header">
             <div class="video-popup-title">Video Viral</div>
@@ -1170,12 +1165,12 @@
             <div class="video-frame-container" id="videoContainer">
                 <video 
                     id="promoVideo"
-                    autoplay
                     muted
                     loop
-                    controls
-                    preload="metadata"
-                    playsinline>
+                    playsinline
+                    webkit-playsinline
+                    preload="none"
+                    poster="">
                     <source src="" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
