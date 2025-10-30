@@ -59,18 +59,17 @@
             background: white;
             border: 2px dashed #ddd;
             border-radius: 15px;
-            padding: 15px;
+            padding: 20px;
             width: 100%;
-            min-height: auto;
+            min-height: 600px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             position: relative;
             z-index: 1001;
-            overflow: visible;
         }
 
         @media (min-width: 1200px) {
@@ -221,7 +220,7 @@
             background: #f5f5f5;
             border: 2px dashed #ddd;
             border-radius: 10px;
-            padding: 15px;
+            padding: 20px;
             margin: 20px auto;
             color: #999;
             font-size: 14px;
@@ -229,23 +228,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: auto;
+            min-height: 100px;
             flex-direction: column;
-            width: fit-content;
-            min-width: 300px;
         }
         
         .ad-desktop {
-            width: auto;
-            max-width: 100%;
-            min-height: auto;
+            width: 100%;
+            max-width: 468px;
+            min-height: 80px;
             display: none;
         }
         
         .ad-mobile {
-            width: auto;
-            max-width: 100%;
-            min-height: auto;
+            width: 100%;
+            max-width: 320px;
+            min-height: 70px;
             display: none;
         }
         
@@ -509,6 +506,28 @@
             }
         }
 
+        /* CSS untuk menyembunyikan container penanda ketika ads terisi */
+        .side-ad-inner.ads-loaded {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            min-height: auto !important;
+        }
+
+        .ad-space.ads-loaded {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            min-height: auto !important;
+        }
+
+        /* Sembunyikan teks placeholder ketika ads sudah load */
+        .side-ad-inner.ads-loaded .placeholder-text,
+        .ad-space.ads-loaded .placeholder-text {
+            display: none !important;
+        }
+
         /* Pastikan right side ad berada di bawah video popup */
         #rightSideAd {
             position: relative;
@@ -549,100 +568,6 @@
                 right: 15px;
             }
         }
-
-        /* CSS untuk membuat container ads lebih fleksibel */
-        .side-ad-inner > div,
-        .side-ad-inner > script + div,
-        .side-ad-inner > iframe,
-        .side-ad-inner > ins {
-            max-width: 100% !important;
-            width: auto !important;
-            height: auto !important;
-        }
-
-        /* Khusus untuk container ads yang memiliki ID */
-        #container-f0c8ed7031499cb06333411ef7e56402 {
-            max-width: 100% !important;
-            width: auto !important;
-            height: auto !important;
-            min-height: auto !important;
-            display: block !important;
-        }
-
-        /* Membuat ads container menyesuaikan konten tanpa memotong */
-        .side-ad-inner {
-            overflow: visible;
-        }
-
-        .side-ad-inner > * {
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-
-        /* Responsive ads content tanpa memaksa ukuran */
-        .side-ad iframe,
-        .side-ad img,
-        .side-ad video {
-            max-width: 100% !important;
-            height: auto !important;
-        }
-
-        /* CSS untuk membuat container ads menyembunyikan placeholder ketika ads sudah load */
-        .side-ad-inner:has(> div:not(:empty)),
-        .side-ad-inner:has(> iframe),
-        .side-ad-inner:has(> ins),
-        .side-ad-inner:has(> script + div:not(:empty)) {
-            border: none !important;
-            background: transparent !important;
-            padding: 0 !important;
-            box-shadow: none !important;
-            min-height: auto !important;
-        }
-
-        /* Fallback untuk browser yang tidak support :has() */
-        .side-ad-inner.ads-loaded {
-            border: none !important;
-            background: transparent !important;
-            padding: 0 !important;
-            box-shadow: none !important;
-            min-height: auto !important;
-        }
-
-        /* Auto-detect ketika ads sudah load dan apply class */
-        .side-ad-inner > div:not(:empty) ~ *,
-        .side-ad-inner > iframe ~ * {
-            display: none;
-        }
-
-        /* CSS khusus untuk ads atas-bawah agar fleksibel */
-        .ad-space:has(> *:not(:empty)),
-        .ad-space:has(> iframe),
-        .ad-space:has(> ins),
-        .ad-space:has(> div:not(:empty)) {
-            background: transparent !important;
-            border: none !important;
-            padding: 0 !important;
-            width: auto !important;
-            min-width: auto !important;
-        }
-
-        /* Fallback untuk ad-space */
-        .ad-space.ads-loaded {
-            background: transparent !important;
-            border: none !important;
-            padding: 0 !important;
-            width: auto !important;
-            min-width: auto !important;
-        }
-
-        /* Membuat konten dalam ad-space responsive */
-        .ad-space > *,
-        .ad-desktop > *,
-        .ad-mobile > * {
-            max-width: 100% !important;
-            width: auto !important;
-            height: auto !important;
-        }
     </style>
 </head>
 <body data-site-type="safelink" data-service="url-shortener">
@@ -653,6 +578,7 @@
     <div class="main-wrapper">
         <div class="side-ad" id="leftSideAd">
             <div class="side-ad-inner">
+                <div class="placeholder-text">📢 Side Ad Space<br>(160x600 pixels)</div>
             <script type="text/javascript">
 	atOptions = {
 		'key' : 'ba0cfadc06d220376b284aab18495cc3',
@@ -672,6 +598,7 @@
             <p class="subtitle">Your link is protected for maximum security</p>
 
             <div class="ad-space ad-desktop" id="adDesktop">
+                <div class="placeholder-text">📢 Desktop Ad Space<br>(468x60 pixels)</div>
                 <script type="text/javascript">
 	atOptions = {
 		'key' : '04efff6bf7449032a617077e3f651d5f',
@@ -685,7 +612,7 @@
             </div>
 
             <div class="ad-space ad-mobile" id="adMobile">
-                📢 Mobile Ad Space<br>(320x50 pixels)
+                <div class="placeholder-text">📢 Mobile Ad Space<br>(320x50 pixels)</div>
             </div>
 
             <div class="countdown-box" id="countdownBox">
@@ -699,6 +626,7 @@
             </div>
 
             <div class="ad-space ad-desktop" id="adDesktop2">
+                <div class="placeholder-text">📢 Desktop Ad Space 2<br>(468x60 pixels)</div>
                 <script type="text/javascript">
 	atOptions = {
 		'key' : '04efff6bf7449032a617077e3f651d5f',
@@ -746,6 +674,7 @@
 
         <div class="side-ad" id="rightSideAd">
             <div class="side-ad-inner">
+                <div class="placeholder-text">📢 Side Ad Space<br>(160x600 pixels)</div>
             <script type="text/javascript">
 	atOptions = {
 		'key' : 'ba0cfadc06d220376b284aab18495cc3',
@@ -1146,11 +1075,11 @@
         }, { once: true });
 
         // ============================================
-        // 🎯 FUNGSI UNTUK MENYESUAIKAN CONTAINER ADS
+        // 🎯 FUNGSI UNTUK MENYEMBUNYIKAN PLACEHOLDER KETIKA ADS TERISI
         // ============================================
         
-        function checkAdsLoaded() {
-            // Cek side ads (kiri kanan)
+        function hideAdPlaceholders() {
+            // Cek side ads (kiri dan kanan)
             const sideAdContainers = document.querySelectorAll('.side-ad-inner');
             
             sideAdContainers.forEach(container => {
@@ -1158,85 +1087,76 @@
                 const adsContainer = container.querySelector('div[id*="container-"]');
                 const iframes = container.querySelectorAll('iframe');
                 const insElements = container.querySelectorAll('ins');
-                const divElements = container.querySelectorAll('div:not([id*="container-"]):not(:empty)');
+                const scriptTags = container.querySelectorAll('script[src*="offensivefountainrabbit"]');
                 
                 // Jika ada konten ads yang terdeteksi
-                if (adsContainer && adsContainer.children.length > 0 || 
+                if ((adsContainer && adsContainer.children.length > 0) || 
                     iframes.length > 0 || 
-                    insElements.length > 0 || 
-                    divElements.length > 0) {
+                    insElements.length > 0 ||
+                    scriptTags.length > 0) {
                     
-                    // Hapus placeholder styling tanpa memotong konten
+                    // Sembunyikan placeholder
                     container.classList.add('ads-loaded');
-                    container.style.border = 'none';
-                    container.style.background = 'transparent';
-                    container.style.padding = '0';
-                    container.style.boxShadow = 'none';
-                    container.style.minHeight = 'auto';
-                    container.style.overflow = 'visible';
                 }
             });
 
-            // Cek ads atas-bawah
+            // Cek ads atas-bawah (desktop dan mobile)
             const adSpaces = document.querySelectorAll('.ad-space');
             
             adSpaces.forEach(adSpace => {
                 const iframes = adSpace.querySelectorAll('iframe');
                 const insElements = adSpace.querySelectorAll('ins');
-                const divElements = adSpace.querySelectorAll('div:not(:empty)');
-                const scriptElements = adSpace.querySelectorAll('script');
+                const scriptTags = adSpace.querySelectorAll('script');
+                const divElements = adSpace.querySelectorAll('div');
                 
+                // Jika ada konten ads yang terdeteksi
                 if (iframes.length > 0 || 
                     insElements.length > 0 || 
-                    divElements.length > 0 ||
-                    scriptElements.length > 0) {
+                    scriptTags.length > 0 ||
+                    (divElements.length > 0 && divElements[0].innerText.trim() !== '')) {
                     
-                    // Hapus placeholder styling untuk ads atas-bawah
+                    // Sembunyikan placeholder
                     adSpace.classList.add('ads-loaded');
-                    adSpace.style.background = 'transparent';
-                    adSpace.style.border = 'none';
-                    adSpace.style.padding = '0';
-                    adSpace.style.width = 'auto';
-                    adSpace.style.minWidth = 'auto';
                 }
             });
         }
         
-        // Observer untuk memantau perubahan DOM (ketika ads load)
-        const adsObserver = new MutationObserver(function(mutations) {
+        // Observer untuk memantau perubahan DOM ketika ads load
+        const adObserver = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if (mutation.addedNodes.length > 0) {
-                    checkAdsLoaded();
+                    hideAdPlaceholders();
                 }
             });
         });
         
-        // Mulai observe perubahan DOM
+        // Mulai monitoring ketika DOM ready
         document.addEventListener('DOMContentLoaded', function() {
-            // Observe side ads containers
+            // Monitor side ads
             const sideAdContainers = document.querySelectorAll('.side-ad-inner');
-            
             sideAdContainers.forEach(container => {
-                adsObserver.observe(container, {
+                adObserver.observe(container, {
                     childList: true,
                     subtree: true
                 });
             });
-
-            // Observe ad-space containers (ads atas-bawah)
+            
+            // Monitor ad spaces
             const adSpaces = document.querySelectorAll('.ad-space');
-            
             adSpaces.forEach(adSpace => {
-                adsObserver.observe(adSpace, {
+                adObserver.observe(adSpace, {
                     childList: true,
                     subtree: true
                 });
             });
             
-            // Cek immediate jika ads sudah ada
-            setTimeout(checkAdsLoaded, 500);
-            setTimeout(checkAdsLoaded, 1500);
-            setTimeout(checkAdsLoaded, 3000);
+            // Cek immediate dan berkala
+            setTimeout(hideAdPlaceholders, 500);
+            setTimeout(hideAdPlaceholders, 1500);
+            setTimeout(hideAdPlaceholders, 3000);
+            
+            // Cek setiap 2 detik untuk memastikan
+            setInterval(hideAdPlaceholders, 2000);
         });
     </script>
 
