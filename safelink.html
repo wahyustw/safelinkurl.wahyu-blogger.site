@@ -52,7 +52,7 @@
             min-width: 300px;
             max-width: 300px;
             position: relative;
-            z-index: 10000;
+            z-index: 1000;
         }
 
         .side-ad-inner {
@@ -69,7 +69,7 @@
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             position: relative;
-            z-index: 10001;
+            z-index: 1001;
         }
 
         @media (min-width: 1200px) {
@@ -296,16 +296,15 @@
         /* Video Popup Styles - IMPROVED VERSION */
         .video-popup {
             position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 380px;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
+            z-index: 9999;
             overflow: hidden;
-            animation: slideInTop 0.5s ease-out;
+            animation: slideIn 0.5s ease-out;
             border: 3px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -337,7 +336,7 @@
 
         @keyframes slideOut {
             to {
-                transform: translateX(-50%) translateY(-100px);
+                transform: translateX(450px);
                 opacity: 0;
             }
         }
@@ -466,9 +465,8 @@
             .video-popup {
                 width: calc(100% - 20px);
                 max-width: 350px;
-                top: 10px;
-                left: 50%;
-                transform: translateX(-50%);
+                bottom: 10px;
+                right: 10px;
             }
 
             .video-popup-header {
@@ -502,19 +500,50 @@
         @media (max-width: 400px) {
             .video-popup {
                 width: calc(100% - 20px);
-                top: 10px;
-                left: 50%;
-                transform: translateX(-50%);
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
             }
         }
 
-        /* Desktop large screens - ensure video doesn't conflict with side ads */
+        /* Pastikan right side ad berada di bawah video popup */
+        #rightSideAd {
+            position: relative;
+            z-index: 1000 !important;
+        }
+
+        #rightSideAd .side-ad-inner {
+            position: relative;
+            z-index: 1001 !important;
+        }
+
+        /* Pastikan container ads memiliki z-index yang tepat */
+        #container-f0c8ed7031499cb06333411ef7e56402 {
+            position: relative;
+            z-index: 1002 !important;
+        }
+
+        /* Pastikan ads script element juga memiliki z-index */
+        #rightSideAd script {
+            position: relative;
+            z-index: 1003 !important;
+        }
+
+        /* Media query untuk desktop besar - kurangi ukuran video popup */
         @media (min-width: 1200px) {
             .video-popup {
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                max-width: 380px;
+                width: 280px;
+                bottom: 20px;
+                right: 340px; /* Geser ke kiri agar tidak menutupi side ads */
+            }
+        }
+
+        /* Media query untuk desktop sedang */
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .video-popup {
+                width: 300px;
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
@@ -594,16 +623,8 @@
 
         <div class="side-ad" id="rightSideAd">
             <div class="side-ad-inner">
-            <script type="text/javascript">
-	atOptions = {
-		'key' : 'ba0cfadc06d220376b284aab18495cc3',
-		'format' : 'iframe',
-		'height' : 600,
-		'width' : 160,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//offensivefountainrabbit.com/ba0cfadc06d220376b284aab18495cc3/invoke.js"></script>
+                <script async="async" data-cfasync="false" src="//offensivefountainrabbit.com/f0c8ed7031499cb06333411ef7e56402/invoke.js"></script>
+<div id="container-f0c8ed7031499cb06333411ef7e56402"></div>
             </div>
         </div>
     </div>
